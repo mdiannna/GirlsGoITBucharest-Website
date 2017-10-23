@@ -9,7 +9,6 @@ Tinere cu vârsta cuprinsă între 16-25 ani (eleve și studente)
 
 ## Cuvinte cheie
 IT, fete, voluntariat, tehnologie, comunitate, impact, non-discriminare
-## Alte site-uri cu scopuri și obiective similare
+## Alte Website-uri GirlsGoIT:
 * Website-ul oficial GirlsGoIT: [http://girlsgoit.org/](http://girlsgoit.org/)
 * Website-ul GirlsGoIT creat de participantele taberei de vară GirlsGoIT 2017: [http://moldova.girlsgoit.org/](http://moldova.girlsgoit.org/)
-* Website-ul Codette: [http://codette.ro/](http://codette.ro/)
