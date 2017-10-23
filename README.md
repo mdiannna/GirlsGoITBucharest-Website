@@ -1,6 +1,6 @@
 # Documentația website-ului GirlsGoIT București
 ## Scop
-Scopul acestui website este de a prezenta informații despre activitatea organizației GirlsGoIT București, care încurajează fetele să urmeze o carieră în domeniul IT.
+Scopul acestui website este de a prezenta informații despre activitatea GirlsGoIT București, care încurajează fetele să urmeze o carieră în domeniul IT.
 ## Target group
 Tinere cu vârsta cuprinsă între 16-25 ani (eleve și studente)
 ## Descriere
