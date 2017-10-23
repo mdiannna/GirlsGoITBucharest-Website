@@ -140,7 +140,7 @@ p.bold {
 }
 
 
-#main-info h1 {
+#main-info h2 {
 	margin-top: 0;
 	padding-top: 0;
 	text-align: center;
@@ -149,7 +149,7 @@ p.bold {
 
 }
 
-#main-info h2 {
+#main-info h3 {
 	text-align: center;
 	font-family: 'Indie Flower', cursive;
 }
