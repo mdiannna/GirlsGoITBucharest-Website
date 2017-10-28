@@ -13,6 +13,8 @@ De asemenea, site-ul va conține o pagină cu o hartă și link-uri către alte 
 
 
 ## Structură
+![Structura website-ului](https://github.com/mdiannna/GirlsGoITBucharest-Website/blob/master/structura.png?raw=true)
+
 
 ## Cuvinte cheie
 IT, fete, voluntariat, tehnologie, comunitate, impact, non-discriminare, gender equality
