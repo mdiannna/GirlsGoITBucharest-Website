@@ -50,6 +50,8 @@ nav a {
 	font-size: 23px;
 	font-weight: bold;
 	font-family: 'Indie Flower', cursive;
+	height:1.2rem;
+		line-height:1.2rem;
 }
 
 nav {
