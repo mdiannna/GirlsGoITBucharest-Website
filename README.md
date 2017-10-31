@@ -17,7 +17,13 @@ De asemenea, site-ul va conține o pagină cu o hartă și link-uri către alte 
 
 
 ## Cuvinte cheie
-IT, fete, voluntariat, tehnologie, comunitate, impact, non-discriminare, gender equality
+- Principale: GirlsGoIT, IT, gender equality
+- Pagina principală: GirlsGoIT, IT, fete, gender equality
+- Pagina "Istorie":  GirlsGoIT, Moldova, Moldova ICT Summit, TEKEDU, IT, tabăra de vară, gender equality
+- Pagina "Locații:": hartă, locație, club local
+- Pagina "Istorii de succes": GirlsGoIT, IT, participant(ă), carieră, comunitate, impact
+- Pagina "Contact": GirlsGoIT, TEKEDU, email, persoana de contact, telefon
+
 ## Alte Website-uri GirlsGoIT:
 * Website-ul oficial GirlsGoIT: [http://girlsgoit.org/](http://girlsgoit.org/)
 * Website-ul GirlsGoIT creat de participantele taberei de vară GirlsGoIT 2017: [http://moldova.girlsgoit.org/](http://moldova.girlsgoit.org/)
