@@ -24,6 +24,11 @@ main {
 
 a {
 	color: #2c9571;
+	text-decoration: none;
+}
+
+section h2 {
+	color: #167353;
 }
 
 section h1, h2, h3, h4, h5, p, div {
