@@ -12,6 +12,7 @@ html {
 body {
 	margin: 0;
 	padding: 0;
+	padding-top: 45px;
 	/*width: 100%;*/
 	/*overflow: hidden;*/
 }
@@ -55,21 +56,25 @@ nav a {
 	font-size: 23px;
 	font-weight: bold;
 	font-family: 'Indie Flower', cursive;
-	height:1.2rem;
-		line-height:1.2rem;
+	/*height:1.2rem;*/
+		/*line-height:1.2rem;*/
 }
 
 nav {
 	background-color: #54c39d;
-	height: 60px;
+	/*height: 60px;*/
 	width: 100%;
 	top: 0px;
 	padding-top: 0px;
 	margin-top: 0;
+	position: fixed;
+	z-index: 3;
 }
 
 nav ul {
 	display: inline-block;
+	margin-top: 0;
+	margin-bottom: 0;
 	/*padding-top: 10px;*/
 }
 
@@ -80,6 +85,7 @@ footer {
 	color: white;
 	padding-top: 10px;
 	padding-bottom: 20px;
+	bottom: 0;
 }
 
 footer a {
@@ -88,6 +94,27 @@ footer a {
 	font-size: 16px;
 	/*font-weight: bold;*/
 	/*font-family: 'Indie Flower', cursive;*/
+}
+
+nav>ul>li {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+nav>ul>li:hover {
+	background-color: white;
+	transition: background-color 3s linear 1s;
+	transition: 1s ease-in-out;
+	transition: 1s;
+	/*background-color: #222;*/
+}
+
+nav>ul>li:hover a{
+	color: #2c9571;
+	transition: color 3s linear 1s;
+	transition: 1s ease-in-out;
+	transition: 1s;
+
 }
 
 .align-center {
@@ -135,8 +162,12 @@ p.bold {
 }
 
 
-#main-cover {
+.cover-img {
 	width: 100%;
+}
+
+#main-cover {
+	animation: img-pag-principala 10s infinite
 }
 
 #main-info {
@@ -164,3 +195,95 @@ p.bold {
 #main-info-btn-div {
 	text-align: center;
 }
+
+table.bordered-table {
+	border: 1px solid black;
+	/*border-collapse: collapse;*/
+	border-spacing: 0;
+}
+
+table.bordered-table td, table.bordered-table th {
+	border: 1px solid black;
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+#locations_table {
+	width: 100%;
+	/*text-align: center;*/
+}
+
+#locations_table th {
+	font-size: 18px;
+	color: #225644;
+}
+
+#locations_table td {
+	padding: 10px;
+}
+
+#locations_table img {
+	width: 200px;
+	max-height: 200px;
+}
+
+#locations_table .img-cell {
+	text-align: center;
+}
+
+#locations {
+	margin: auto;
+	padding-left:20px;
+	padding-right:20px;
+}
+
+footer li a:hover {
+	font-weight: bold;
+}
+
+
+.GGIT-section {
+	width: 30%;
+	display: inline-block;
+}
+
+.GGIT-section h3 {
+	text-align: center;
+}
+
+.section-img {
+	width: 100%;
+}
+
+/* General format classes */
+.text-center {
+	text-align: center;
+}
+
+.btn-sus:hover {
+	color: white;
+	background-color: #2c9571;
+
+}
+
+/* Animations */
+@keyframes img-pag-principala {
+	0% {
+		opacity: 0.8;
+	}
+
+	50% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0.8;
+	}
+}
+
+
+
+/*footer {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+}*/
