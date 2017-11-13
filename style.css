@@ -68,7 +68,7 @@ nav {
 	padding-top: 0px;
 	margin-top: 0;
 	position: fixed;
-	z-index: 3;
+	z-index: 100;
 }
 
 nav ul {
@@ -243,7 +243,7 @@ footer li a:hover {
 
 
 .GGIT-section {
-	width: 30%;
+	/*width: 30%;*/
 	display: inline-block;
 }
 
@@ -266,6 +266,36 @@ footer li a:hover {
 
 }
 
+#logo-img {
+	position: relative;
+	z-index: 4;
+}
+
+#main-cover-logo {
+	position: absolute;
+    height: 150px;
+    width: 150px;
+    /* z-index: -25; */
+    top: 476px;
+}
+
+#sections-wrapper {
+	display: flex;
+	flex-flow: row nowrap;
+	/*flex-flow: column nowrap;*/
+	justify-content: space-around;
+	align-items: center;
+}
+
+#story-1, #story-2 {
+	display: flex;
+	flex-flow: row nowrap;
+}
+
+#story-1 aside, #story-2 aside {
+	padding-left: 20px;
+}
+
 /* Animations */
 @keyframes img-pag-principala {
 	0% {
@@ -282,8 +312,15 @@ footer li a:hover {
 
 
 
-/*footer {
-	position: fixed;
-	bottom: 0;
-	width: 100%;
-}*/
+@media screen and (max-width: 960px) and (min-width: 500px) {
+
+}
+
+@media screen and (max-width: 600px) {
+	#sections-wrapper {
+		display: flex;
+		flex-flow: column nowrap;
+		justify-content: space-around;
+		align-items: center;
+	}
+} 
