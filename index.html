@@ -8,7 +8,7 @@
 	<meta name="keywords" content="GirlsGoIT, IT, fete, gender equality">
 	
 	<title>GirlsGoIT București</title>
-	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="styles/style.css">
 	<link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -17,13 +17,13 @@
 <body>
 	<header>
 		<nav>
-			<ul>
+			<ul class="menu">
 				<li>
-					<a href="#" title="pagina principală">
+					<a href="index.html#" title="pagina principală">
 						<span><i class="fa fa-home" aria-hidden="true"></i></span> Pagina principală
 					</a>
 				</li>
-				<li><a href="#despre" title="despre">
+				<li><a href="index.html#despre" title="despre">
 					<span><i class="fa fa-info-circle" aria-hidden="true"></i></span> Despre</a>
 				</li>
 				<li><a href="istorie.html" title="story">
@@ -32,9 +32,12 @@
 				<li><a href="locatii.html" title="locatii">
 					<span><i class="fa fa-map-marker" aria-hidden="true"></i></span> Locații GirlsGoIT</a>
 				</li>
-				<!-- De adaugat meniu derulant li fiecare robotel -->
 				<li><a href="istorii_de_succes.html" title="istorii de succes">
 					<span><i class="fa fa-users" aria-hidden="true"></i></span> Istorii de succes</a>
+					<ul class="submenu">
+						<li><a href="istorii_de_succes.html#story-1" title="robotica eva">Roboțica Eva</a></li>
+						<li><a href="istorii_de_succes.html#story-2" title="robotelul frank">Roboțelul Frank</a></li>
+					</ul>
 				</li>
 				<li><a href="contact.html" title="contact">
 					<span><i class="fa fa-envelope" aria-hidden="true"></i></span> Contact</a>
@@ -43,9 +46,6 @@
 		</nav>	
 	</header>
 	<main>
-		<div id="logo-img">
-			<img src="img/GGITBucharest.png" alt="GirlsGoIT Bucharest photo" id="main-cover-logo"/>
-		</div>
 		<div class="cover-img">
 			<img src="img/computer_cover_blur.jpeg" alt="cover" id="main-cover" class="cover-img">
 		</div>
