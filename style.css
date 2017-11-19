@@ -164,10 +164,11 @@ p.bold {
 
 .cover-img {
 	width: 100%;
+	animation: img-opacity 10s infinite;
 }
 
 #main-cover {
-	animation: img-pag-principala 10s infinite
+	animation: img-opacity 10s infinite;
 }
 
 #main-info {
@@ -296,8 +297,17 @@ footer li a:hover {
 	padding-left: 20px;
 }
 
+footer li {
+	list-style-type: none;
+}
+
+footer ul {
+	padding-left: 10px;
+	margin-left: 0;
+}
+
 /* Animations */
-@keyframes img-pag-principala {
+@keyframes img-opacity {
 	0% {
 		opacity: 0.8;
 	}
@@ -316,11 +326,16 @@ footer li a:hover {
 
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 500px) {
 	#sections-wrapper {
 		display: flex;
 		flex-flow: column nowrap;
 		justify-content: space-around;
 		align-items: center;
+	}
+
+	#story-1, #story-2 {
+		display: flex;
+		flex-flow: column nowrap;
 	}
 } 
