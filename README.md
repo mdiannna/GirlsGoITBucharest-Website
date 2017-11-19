@@ -13,7 +13,7 @@ De asemenea, site-ul va conține o pagină cu o hartă și link-uri către alte 
 
 
 ## Structură
-![Structura website-ului](https://github.com/mdiannna/GirlsGoITBucharest-Website/blob/master/structura.png?raw=true)
+![Structura website-ului](https://github.com/mdiannna/GirlsGoITBucharest-Website/blob/master/Documentatie/structura.png?raw=true)
 
 
 ## Cuvinte cheie
@@ -22,7 +22,7 @@ De asemenea, site-ul va conține o pagină cu o hartă și link-uri către alte 
 - Pagina "Istorie":  GirlsGoIT, IT,  gender equality, Moldova, Moldova ICT Summit, TEKEDU, tabăra de vară
 - Pagina "Locații:": GirlsGoIT, IT, hartă, locație, club local
 - Pagina "Istorii de succes": GirlsGoIT, IT, participant(ă), carieră, comunitate, impact
-- Pagina "Contact": GirlsGoIT, IT, TEKEDU, email, persoana de contact, telefon
+- Pagina "Contact": GirlsGoIT, IT, email, persoana de contact, telefon
 
 ## Alte Website-uri GirlsGoIT:
 * Website-ul oficial GirlsGoIT: [http://girlsgoit.org/](http://girlsgoit.org/)
