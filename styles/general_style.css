@@ -1,3 +1,4 @@
+
 html {
     margin: 0;
     outline: 0;
@@ -8,7 +9,7 @@ body {
     margin: 0;
     padding: 0;
     width: auto;
-    overflow-x: scroll;
+    overflow-x: hidden;
 }
 main {
     margin: 0;
@@ -96,8 +97,8 @@ ul.menu>li>ul.submenu>li {
 }
 ul.menu>li {
     float: left;
-    padding-left: 1rem;
-    padding-right: 1rem;
+ 	padding-left: 1vw;
+    padding-right: 1vw;
 }
 ul.submenu>li {
     background-color: #54c39d;
@@ -333,6 +334,9 @@ footer ul {
 
 /* Tablet version */
 @media screen and (max-width: 960px) and (min-width: 500px) {
+	body {
+		max-width: 100%;
+	}
 	main {
 		padding-top: 0;
 	}
@@ -347,10 +351,11 @@ footer ul {
         align-items: center;
     }
     nav ul.menu > li {
-        width: 26vw;
+        /*width: 26vw;*/
+        width: 26%;
     }
     nav ul.menu li a {
-        font-size: 3vw;
+        font-size: 2.5vw;
     }
     ul.menu>li>ul.submenu li {
         display: inline;
@@ -460,6 +465,9 @@ footer ul {
 
 /* Mobile version */
 @media screen and (max-width: 500px) {
+	html, body, main{
+		max-width: 100%;
+	}
 	main {
 		padding-top: 0;
 	}
@@ -486,7 +494,7 @@ footer ul {
         height: 3vw;
     }
     nav a {
-        font-size: 6vw;
+        font-size: 4vw;
     }
     ul.menu {
         padding: 0;
@@ -559,7 +567,7 @@ footer ul {
         font-size: 1rem;
     }
     ul.menu>li>ul.submenu>li a {
-        font-size: 1rem;
+        font-size: 3vw;
     }
     ul.menu>li,
     ul.menu>li>ul.submenu>li {
@@ -569,7 +577,7 @@ footer ul {
         width: 100%;
     }
     .table {
-        max-width: 90%;
+        max-width: 70%;
     }
     thead {
         display: none;
@@ -580,14 +588,14 @@ footer ul {
     td {
         display: list-item;
         list-style-type: none;
-        font-size: 3.6vw;
+        font-size: 3.3vw;
     }
     .mobile-separator {
         background-color: #2c9571;
         display: block;
     }
     #locations_table {
-        max-width: 80%;
+        max-width: 70%;
     }
     #locations_table td {
         border: none;
@@ -628,6 +636,7 @@ footer ul {
     .btn-primary {
     	margin-top: 0;
     	margin-bottom: 0;
+    	font-size: 4vw;
     }
     #main-info h2 {
     	font-size: 7vw;
@@ -636,7 +645,7 @@ footer ul {
     	font-size: 5.2vw;
     }
     #locations_table img {
-	    width: 50vw;
+	    width: 45vw;
 	    max-height: 50vw;
 	}
 }
