@@ -1,3 +1,13 @@
+body {
+	background-image: url('../img/background2.jpg');
+	background-image: url('../img/background9.jpg');
+   -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    overflow: hidden;
+}
+
 #sprite {
 	position: absolute;
 	height: 100px;
@@ -6,53 +16,13 @@
 
 
 #sprite img {
-	/*transform: rotate(-30deg);*/
-	/*height: 100px;*/
 	width: 100px;
 }
 
 .codeBlock {
 	position: absolute;
-	/*background-image: url('');*/
-	/*background-color: red;*/
 	animation: falling 10s linear;
 	top: -200px;
-}
-
-@keyframes falling {
-	0% {
-		top: -200px;
-	}
-
-	100% {
-		top: 800px;
-	}
-}
-
-body {
-	background-image: url('../img/background2.jpg');
-	/*background-image: url('../img/background4.jpg');*/
-	/*background-image: url('../img/background6.jpg');*/
-	/*background-image: url('../img/background7.jpg');*/
-	/*background-image: url('../img/backgroun/d4.jpg');*/
-	/*background-image: url('../img/background8.jpg');*/
-	/*background-image: url('../img/background8_1.jpg');*/
-	background-image: url('../img/background9.jpg');
-	/*background-image: url('../img/background15.jpg');
-	background-image: url('../img/background15_1.jpg');
-	background-image: url('../img/background15_2.jpg');
-	background-image: url('../img/background15_3.jpg');
-	background-image: url('../img/background15_4.jpg');*/
-	/*background-image: url('../img/background14.jpg');*/
-
-   -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    overflow: hidden;
-    /*height: 100%;*/
-    /*width: 100%;*/
-    /*background-repeat: no-repeat; background-size: 100% 100%;*/
 }
 
 .obstacle {
@@ -73,18 +43,18 @@ body {
 
 .codeBlock p {
 	position: absolute;
-	/*left: 20px;*/
 	top: 10px;
 	color: white;
 	width: 300px;
 	text-align: center;
 } 
 
+
+/*TODO: delete*/
 #obstacle1 {
 	top: 20px;
 	left: 20px;
 }
-
 
 #obstacle2 {
 	top: 420px;
@@ -105,3 +75,5 @@ body {
 	top: 420px;
 	left: 820px;
 }
+
+/*Delete until here*/
