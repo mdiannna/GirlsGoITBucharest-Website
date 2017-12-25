@@ -1,11 +1,11 @@
-#butterfly {
+#sprite {
 	position: absolute;
 	height: 100px;
 	width: 100px;
 }
 
 
-#butterfly img {
+#sprite img {
 	/*transform: rotate(-30deg);*/
 	/*height: 100px;*/
 	width: 100px;
@@ -15,6 +15,18 @@
 	position: absolute;
 	/*background-image: url('');*/
 	/*background-color: red;*/
+	animation: falling 10s linear;
+	top: -200px;
+}
+
+@keyframes falling {
+	0% {
+		top: -200px;
+	}
+
+	100% {
+		top: 800px;
+	}
 }
 
 body {
@@ -46,6 +58,8 @@ body {
 .obstacle {
 	position: absolute;
 	width: 100px;
+	animation: falling 10s linear;
+	top: -200px;
 }
 
 .obstacle img {

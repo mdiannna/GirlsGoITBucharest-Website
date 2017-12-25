@@ -1,6 +1,6 @@
 function moveButterfly() {
-	document.getElementById("butterfly").style.left = "100px";
-	document.getElementById("butterfly").style.top = "100px";
+	document.getElementById("sprite").style.left = "100px";
+	document.getElementById("sprite").style.top = "100px";
 }
 
 var butterflyPositionTop;
@@ -37,17 +37,23 @@ function checkKey(e) {
        butterflyPositionLeft += STEP;
     }
 
-    document.getElementById("butterfly").style.top = butterflyPositionTop + "px";
-    document.getElementById("butterfly").style.left = butterflyPositionLeft + "px";
-    // document.getElementById("butterfly").style.right = butterflyPositionright + "px";
-    // document.getElementById("butterfly").style.top = butterflyPositionTop + "px";
+    document.getElementById("sprite").style.top = butterflyPositionTop + "px";
+    document.getElementById("sprite").style.left = butterflyPositionLeft + "px";
+    // document.getElementById("sprite").style.right = butterflyPositionright + "px";
+    // document.getElementById("sprite").style.top = butterflyPositionTop + "px";
     fallCodeBlock();
 }
 
 
+function startFalling(myObject) {
+	// 	myObject.style.top +=  i*10 + "px";
+	// 	myObject.style.left +=  i*10 + "px";
+
+}
 function fallCodeBlock() {
 	var codeBlocks = document.querySelectorAll(".codeBlock");
 	for (var i=0; i<codeBlocks.length; i++) {
+		// startFalling(codeBlocks[i]);
 		codeBlocks[i].style.top += 150 * i + "px";
 		codeBlocks[i].style.left += 200 * i + "px";
 	}
