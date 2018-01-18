@@ -25,11 +25,6 @@ var OBSTACLE_STEP = 10;
 
     var colision = {
         detectColision: function(object, sprite) {
-            // alert(SPRITE_WIDTH);
-            // alert(OBSTACLE_WIDTH);
-            // alert(sprite.style.left);
-            // alert(object.style.left);
-            // style.lefy e in pixeli!!!
             var objLeft = parseInt(object.style.left.replace("px", ""));
             var objTop = parseInt(object.style.top.replace("px", ""));
             var objWidth = OBSTACLE_WIDTH;
@@ -87,6 +82,7 @@ window.onload = function()
             obstacleImage = document.createElement("img");
             obstacleImage.setAttribute("src", "img/obstacles/obstacle1.png");
             obstacle.appendChild(obstacleImage);   
+            obstacle.lastColisioned = false;
 
             return obstacle;
         },
@@ -133,7 +129,12 @@ window.onload = function()
 
      function moveObstacle(obj, interval) {
             if(colision.detectColision(obj, sprite) == true) {
-                alert("Colision detected!");    
+                if(obj.lastColisioned==false) {
+                    alert("Colision detected!");    
+                    obj.lastColisioned = true;
+                }
+            } else {
+                obj.lastColisioned = false;
             }
 
             if(obj.top == WINDOW_HEIGHT) {
