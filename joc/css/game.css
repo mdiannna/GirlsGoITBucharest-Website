@@ -26,10 +26,7 @@ body {
 }
 
 .obstacle {
-	position: absolute;
 	width: 100px;
-	animation: falling 10s linear;
-	top: -200px;
 }
 
 .obstacle img {
