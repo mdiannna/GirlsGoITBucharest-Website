@@ -8,6 +8,8 @@ var codeBlocksLeft = [];
     
 var SPRITE_HEIGHT;
 var SPRITE_WIDTH;
+var OBSTACLE_HEIGHT = 70;
+var OBSTACLE_WIDTH = 100;
 var WINDOW_WIDTH;
 var WINDOW_HEIGHT;
 var OBSTACLE_FREQUENCY= 120;
@@ -21,6 +23,32 @@ var STEP = 20;
 var OBSTACLE_STEP = 10;
 
 
+    var colision = {
+        detectColision: function(object, sprite) {
+            // alert(SPRITE_WIDTH);
+            // alert(OBSTACLE_WIDTH);
+            // alert(sprite.style.left);
+            // alert(object.style.left);
+            // style.lefy e in pixeli!!!
+            var objLeft = parseInt(object.style.left.replace("px", ""));
+            var objTop = parseInt(object.style.top.replace("px", ""));
+            var objWidth = OBSTACLE_WIDTH;
+            var objHeight =OBSTACLE_HEIGHT;
+            var spriteLeft = parseInt(sprite.style.left.replace("px", ""));
+            var spriteTop = parseInt(sprite.style.top.replace("px", ""));
+            var spriteWidth = SPRITE_WIDTH;
+            var spriteHeight = SPRITE_HEIGHT;
+
+            if ( objLeft< spriteLeft + spriteWidth &&
+                objLeft + objWidth > spriteLeft &&
+                objTop < spriteTop + spriteHeight &&
+                objHeight + objTop > spriteTop) {
+                return true;
+            }
+            return false;
+        }
+    }
+
 window.onload = function() 
 {
     WINDOW_WIDTH = window.innerWidth
@@ -30,6 +58,7 @@ window.onload = function()
      WINDOW_HEIGHT = window.innerHeight
     || document.documentElement.clientHeight
     || document.body.clientHeight;
+
 
 
     var game = {
@@ -54,7 +83,7 @@ window.onload = function()
             obstacle.style.position = "absolute";
             obstacle.style.top = Math.floor(Math.random() * WINDOW_HEIGHT) + "px";
             obstacle.style.left = Math.floor(Math.random() * WINDOW_WIDTH) + "px";
-
+            obstacle.style.width = OBSTACLE_WIDTH + "px";
             obstacleImage = document.createElement("img");
             obstacleImage.setAttribute("src", "img/obstacles/obstacle1.png");
             obstacle.appendChild(obstacleImage);   
@@ -97,16 +126,24 @@ window.onload = function()
             document.body.appendChild(obj);   
         },
 
-        moveObstacle: function(obj, interval) {
+       
+
+    };
+
+
+     function moveObstacle(obj, interval) {
+            if(colision.detectColision(obj, sprite) == true) {
+                alert("Colision detected!");    
+            }
+
             if(obj.top == WINDOW_HEIGHT) {
                 clearInterval(interval);
             }
             // else
             obj.top += OBSTACLE_STEP;
             obj.style.top = obj.top + "px";
-        }
 
-    };
+        }
 
 
     game.createSprite();
@@ -119,16 +156,16 @@ window.onload = function()
     
     // var obstacle1 = game.createObstacle();
     // game.showObject(obstacle1);
-    // setInterval(game.moveObstacle, 100, obstacle1, this);
+    // setInterval(moveObstacle, 100, obstacle1, this);
     
     // var obstacle2 = game.createObstacle();
     // game.showObject(obstacle2);
-    // // game.moveObstacle(obstacle);
-    // setInterval(game.moveObstacle, 100, obstacle2, this);
+    // // moveObstacle(obstacle);
+    // setInterval(moveObstacle, 100, obstacle2, this);
 
     var obstacle = game.createObstacle();
     game.showObject(obstacle);
-    setInterval(game.moveObstacle, 100, obstacle, this);
+    setInterval(moveObstacle, 100, obstacle, this);
 
     function init() {
     	spritePositionTop = 0;
@@ -198,7 +235,7 @@ window.onload = function()
         if (generateObstacle == 2) {
             var obstacle = game.createObstacle();
             game.showObject(obstacle);
-            setInterval(game.moveObstacle, OBSTACLE_SPEED_INTERVAL, obstacle, this);
+            setInterval(moveObstacle, OBSTACLE_SPEED_INTERVAL, obstacle, this);
         }  
         
     }               
