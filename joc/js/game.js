@@ -27,43 +27,52 @@ var sprite;
 var STEP = 20;
 var OBSTACLE_STEP = 10;
 
+// Default values
+var spriteName = "Player1";
+var nrOfLivesTotal = 3;
+var nrOfLivesCurrent = 3;
 
-    var colision = {
-        detectColision: function(object, sprite, objType) {
-            var spriteLeft = parseInt(sprite.style.left.replace("px", ""));
-            var spriteTop = parseInt(sprite.style.top.replace("px", ""));
-            var spriteWidth = SPRITE_WIDTH;
-            var spriteHeight = SPRITE_HEIGHT;
 
-            // defautls are for type "obstacle"
-            var objHeight = OBSTACLE_HEIGHT;
-            var objWidth = OBSTACLE_WIDTH;
-            var objLeft = parseInt(object.style.left.replace("px", ""));
-            var objTop = parseInt(object.style.top.replace("px", ""));
 
-            
-            if(objType == "codeBlock") {
-                objWidth = CODE_BLOCK_WIDTH;
-                objHeight= CODE_BLOCK_HEIGHT;
-            }
-            
+var colision = {
+    detectColision: function(object, sprite, objType) {
+        var spriteLeft = parseInt(sprite.style.left.replace("px", ""));
+        var spriteTop = parseInt(sprite.style.top.replace("px", ""));
+        var spriteWidth = SPRITE_WIDTH;
+        var spriteHeight = SPRITE_HEIGHT;
 
-            if ( objLeft< spriteLeft + spriteWidth &&
-                objLeft + objWidth > spriteLeft &&
-                objTop < spriteTop + spriteHeight &&
-                objHeight + objTop > spriteTop) {
-                return true;
-            }
-            return false;
+        // defautls are for type "obstacle"
+        var objHeight = OBSTACLE_HEIGHT;
+        var objWidth = OBSTACLE_WIDTH;
+        var objLeft = parseInt(object.style.left.replace("px", ""));
+        var objTop = parseInt(object.style.top.replace("px", ""));
+
+        
+        if(objType == "codeBlock") {
+            objWidth = CODE_BLOCK_WIDTH;
+            objHeight= CODE_BLOCK_HEIGHT;
         }
+        
+
+        if ( objLeft< spriteLeft + spriteWidth &&
+            objLeft + objWidth > spriteLeft &&
+            objTop < spriteTop + spriteHeight &&
+            objHeight + objTop > spriteTop) {
+            return true;
+        }
+        return false;
     }
+}
+
 
 window.onload = function() 
 {
     function clearScreen() {
         document.body.innerHTML = "";
+        while(document.body.children.length > 0) {
+            document.body.removeChild(children[0]);
+        }
     }
-
 
     function setGame() {
         var settingsContainer;
@@ -104,15 +113,15 @@ window.onload = function()
                 pageTitle.innerHTML = "Settings";
               
                 nameTextLabel = document.createElement("label");
-                nameTextLabel.innerHTML = "Sprite name: ";
+                nameTextLabel.innerHTML = "Your name: ";
                 // nameTextLabel.style.display = "block";
                 nameTextLabel.style.color = "black";
                 // nameTextLabel.style.textAlign = "center";
 
                 nameText = document.createElement("input");
                 nameText.type = "text";
-                nameText.id = "spriteName"; 
-                nameText.placeholder = "Sprite name...";
+                nameText.id = "nameText"; 
+                nameText.placeholder = "Your name...";
                 // nameText.style.textAlign = "center";
                 // 
                 // 
@@ -128,6 +137,9 @@ window.onload = function()
                 // startGameButton.style.float="center";
                 // startGameButton.style.float="right";
                 startGameButton.addEventListener("click", function(event) {
+                    if(nameText.value && nameText.value!= undefined && nameText.value != "") {
+                        spriteName = nameText.value;
+                    }
                     clearScreen();
                     playGame();                    
                 });
@@ -247,14 +259,99 @@ window.onload = function()
                 document.body.appendChild(obj);   
             },
 
+            createStatusBar:function() {
+                var gameStatus = document.createElement("div");
+                gameStatus.id = "gameStatus";
+                gameStatus.style.position = "fixed";
+                gameStatus.style.top = "0";
+                gameStatus.style.width = "100%";
+                gameStatus.style.backgroundColor = "black";
+                gameStatus.style.height = "30px;";
+                gameStatus.style.left = "0";
+                gameStatus.style.zIndex = "1000";
+                // gameStatus.style.color = "red";
+
+                var lives = document.createElement("span");
+                lives.id = "lives";
+                lives.style.float = "left";
+                // lives.style.paddingTop = "30px";
+                
+                for(var i=0; i<nrOfLivesTotal; i++) {
+                    var heart = document.createElement("i");
+                    heart.classList.add("fa");
+                    heart.classList.add("fa-heart");
+                    heart.setAttribute("aria-hidden", true);
+                    heart.style.marginTop = "5px";
+                    heart.style.color = "red";
+                    heart.style.marginRight = "5px";
+                    lives.appendChild(heart);
+                }
+
+                var playerInfo = document.createElement("playerInfo");
+                playerInfo.id = "playerInfo";
+                playerInfo.style.padding = "0";
+                playerInfo.style.paddingRight = "10px";
+                playerInfo.style.margin = "0";
+                playerInfo.style.float = "right";
+                playerInfo.style.lineHeight = "0";
+                playerInfo.style.color = "white";
+                playerInfo.innerHTML = "<span><p>Player: " + spriteName + "</p></span>";
+
+                gameStatus.appendChild(lives);
+                gameStatus.appendChild(playerInfo);
+
+                document.body.appendChild(gameStatus);
+            },
+            gameOver:function() {
+                clearScreen();
+                var gameOverP = document.createElement("p");
+                gameOverP.innerHTML = "GAME OVER!!!";
+                gameOverP.style.fontSize = "60px";
+                gameOverP.style.color = "red";
+                gameOverP.style.textAlign = "center";
+
+                document.body.appendChild(gameOverP);
+
+                var startAgainBtn = document.createElement("button");
+                startAgainBtn.innerHTML = "Start again";
+                startAgainBtn.style.position = "absolute";
+                startAgainBtn.style.left = Math.floor(0.5 * WINDOW_WIDTH - 30) + "px";
+                // startAgainBtn.style.left = "50%";
+
+                startAgainBtn.addEventListener("click", function(event){
+                    // location.href = "#";
+                    // Location.reload();
+                    document.location.reload();
+                });
+
+                document.body.appendChild(startAgainBtn);
+
+
+            },
+
+            decreaseLives: function() {
+                nrOfLivesCurrent--;
+                if (nrOfLivesCurrent > 0) {
+                    var lives = document.getElementById("lives");
+                    if (lives.children.length > 0) {
+                        lives.removeChild(lives.children[0]);
+                    }
+                } else{
+                    game.gameOver();
+                }
+            }
+
+
         };
 
 
          function moveObstacle(obj) {
                 if(colision.detectColision(obj, sprite, "obstacle") == true) {
                     if(obj.lastColisioned==false) {
-                        alert("Colision with obstacle detected! -1 life");    
+                        alert("Colision with obstacle detected! -1 life");
+                        
                         obj.lastColisioned = true;
+                        game.decreaseLives();    
                     }
                 } else {
                     obj.lastColisioned = false;
@@ -303,7 +400,7 @@ window.onload = function()
                
             }
 
-
+        game.createStatusBar();
         game.createSprite();
         game.showObject(sprite);
 
