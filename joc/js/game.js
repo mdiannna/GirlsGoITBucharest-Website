@@ -20,10 +20,13 @@ var OBSTACLE_INVERSE_FREQUENCY;
 var CODE_BLOCK_INVERSE_FREQUENCY;
 var OBSTACLE_SPEED_INTERVAL;
 var CODE_BLOCK_SPEED_INTERVAL;
+var GAME_DURATION;
 // settings parameters
 var FUNCTION;
+var gameStatus;
 var languages;
 var winMessage;
+var winGameFunction;
 
 
 var obstacles = [];
@@ -42,6 +45,19 @@ var nrOfLivesCurrent;
 
 var currentMouseX;
 var currentMouseY;
+
+
+
+
+
+var languagesData = ["Javascript", "C++"];
+var functionsNamesData = ["sum", "alert", "console log", "print", "read"];
+var codeBlocksData = ["function sum(){", "}", 'alert("something")', 
+        'printf("something");', "cin>>word;", 'console.log("something")',
+        'function initValues() {', 'var P = new Point();', 'P.showValues();',
+        'vectorPuncte.push(P);', '#include <iostream>', 'using namespace std',
+        ];
+
 
 
 function initValues() {
@@ -70,6 +86,8 @@ function initValues() {
     nrOfLivesTotal = 3;
     nrOfLivesCurrent = 3;
 
+    gameStatus = "win";
+
 
     // get constants
     constants = new Const();
@@ -87,6 +105,7 @@ function initValues() {
     OBSTACLE_SPEED_INTERVAL = constants.getObstacleSpeedInterval();
     CODE_BLOCK_SPEED_INTERVAL = constants.getCodeBlockSpeedInterval();
     STEP_CONSTANT = constants.getStepConstant();
+    GAME_DURATION = constants.getGameDuration();
    
 }
 
@@ -315,12 +334,16 @@ window.onload = function()
                 functionSelect = document.createElement("select");
                 // functionSelect.type = "select";
                 functionSelect.id = "functionSelect"; 
-
-                var functionSelectOption1 = document.createElement("option");
-                functionSelectOption1.value = "1";
-                functionSelectOption1.name = "Test1";
-                functionSelectOption1.innerHTML = "Test1";
-                functionSelect.appendChild(functionSelectOption1);
+                
+                for(var i=0; i<functionsNamesData.length; i++) {
+                    var functionSelectOption1 = document.createElement("option");
+                    // functionSelectOption1.value = i;
+                    functionSelectOption1.value = functionsNamesData[i];
+                    // alert(functionSelectOption1.value);
+                    functionSelectOption1.name = functionsNamesData[i];
+                    functionSelectOption1.innerHTML = functionsNamesData[i];
+                    functionSelect.appendChild(functionSelectOption1);
+                }
 
 
 
@@ -334,11 +357,14 @@ window.onload = function()
                 languageMultipleSelect.multiple = "multiple";
                 languageMultipleSelect.id = "languageMultipleSelect"; 
 
-                var languageMultipleSelectOption1 = document.createElement("option");
-                languageMultipleSelectOption1.value = "1";
-                languageMultipleSelectOption1.name = "Test1";
-                languageMultipleSelectOption1.innerHTML = "Test1";
-                languageMultipleSelect.appendChild(languageMultipleSelectOption1);
+                for(var i=0; i<languagesData.length; i++) {
+                    var languageMultipleSelectOption1 = document.createElement("option");
+                    languageMultipleSelectOption1.value = languagesData[i];
+                    languageMultipleSelectOption1.name = languagesData[i];
+                    languageMultipleSelectOption1.innerHTML = languagesData[i];
+                    languageMultipleSelect.appendChild(languageMultipleSelectOption1);    
+                }
+                
 
 
                 winMessageTextAreaLabel = document.createElement("label");
@@ -461,8 +487,11 @@ window.onload = function()
                     var spriteStepNew;
                     var FUNCTION_New;
 
+                        // Reset languages
+                        languages = [];
                             
                     if(loadSettingsCheckbox.checked) {
+
                         if(parseInt(localStorage.getItem("hasData")) == 1) {
                             loadFromStorage = true;
                             spriteName = localStorage.getItem("spriteName");
@@ -472,11 +501,11 @@ window.onload = function()
                             spriteStep = parseInt(localStorage.getItem("spriteStep"));
                             // alert("spriteStep:" + spriteStep);
                             FUNCTION = localStorage.getItem("function");
-
+                            // alert(FUNCTION);
                             var nrLanguages = parseInt(localStorage.getItem("nrLanguages"));
                             
                             for(var i=1; i<=nrLanguages; i++) {
-                                languages.push(localStorage.getItem("language" + i));
+                                languages.push(localStorage.getItem(toString("language" + i)));
                             }
                            
 
@@ -485,7 +514,7 @@ window.onload = function()
                             validateData = false;
                         }    
                     } else {    
-                        // TODO: RegExp numai caractere, minim 3, validare
+                        
                         if(nameText.value && nameText.value!= undefined && nameText.value != "") {
                             spriteNameNew = nameText.value;
                             var re = new RegExp('^[a-zA-Z]{3,}$');
@@ -522,12 +551,10 @@ window.onload = function()
                         var functionSelectOptions = functionSelect.children;
                         for(var i=0; i<functionSelectOptions.length; i++) {
                             if(functionSelectOptions[i].selected) {
-                                FUNCTION_New = functionSelectOptions[i];
+                                FUNCTION_New = functionSelectOptions[i].value;
                             }
                         }
 
-                        // Reset languages
-                        languages = [];
                         var languageMultipleOptions = languageMultipleSelect.children;
                         for(var i=0; i<languageMultipleOptions.length; i++) {
                             if(languageMultipleOptions[i].selected) {
@@ -560,10 +587,12 @@ window.onload = function()
                         localStorage.setItem("winMessage", winMessage);
                         localStorage.setItem("spriteStep", spriteStep);
                         localStorage.setItem("function", FUNCTION);
+                        // alert(FUNCTION);
                         localStorage.setItem("nrLanguages", languages.length);
                         
                         for(var i=1; i<=languages.length; i++) {
-                            localStorage.setItem("language" + i, languages[i]);
+                            // var key = "language" + i;
+                            localStorage.setItem(toString("language" + i), languages[i]);
                         }
                         
 
@@ -684,6 +713,11 @@ window.onload = function()
                 codeBlockImage.setAttribute("src", "img/tablet1.png");
                 codeBlock.appendChild(codeBlockImage);   
 
+                codeBlockP = document.createElement("p");
+                codeBlockP.innerHTML = codeBlocksData[Math.floor(Math.random() * (codeBlocksData.length-1))];
+                codeBlock.appendChild(codeBlockP);   
+
+
                 // codeBlocks.push(codeBlock);
                 
                 
@@ -745,7 +779,9 @@ window.onload = function()
                 playerInfo.style.float = "right";
                 playerInfo.style.lineHeight = "0";
                 playerInfo.style.color = "white";
-                playerInfo.innerHTML = "<span><p>Player: " + spriteName + "</p></span>";
+                
+                playerInfo.innerHTML ="<span><p>Function: " + FUNCTION 
+                + "  &nbsp; | Player: " + spriteName + "</span>";
 
                 gameStatus.appendChild(lives);
                 gameStatus.appendChild(playerInfo);
@@ -753,6 +789,8 @@ window.onload = function()
                 document.body.appendChild(gameStatus);
             },
             gameOver:function() {
+                gameStatus = "lost";
+                clearTimeout(winGameFunction);
                 clearScreen();
                 var gameOverP = document.createElement("p");
                 gameOverP.innerHTML = "GAME OVER!!!";
@@ -790,6 +828,19 @@ window.onload = function()
                 } else{
                     game.gameOver();
                 }
+            },
+            showWinGame:function() {
+                if(gameStatus == "win") {
+                    clearScreen();
+                    alert(winMessage);
+                    var restartBtn = document.createElement("button");
+                    restartBtn.innerHTML = "Restart game";
+                    restartBtn.onclick = function(event) {
+                        document.location.reload();
+                    }
+                    document.body.append(restartBtn);
+                }
+
             }
 
 
@@ -864,6 +915,8 @@ window.onload = function()
         game.showObject(sprite);
         game.createBackpack();
         game.showObject(backpack);
+        winGameFunction = setTimeout(game.showWinGame, GAME_DURATION);
+    
 
         // SPRITE_HEIGHT = parseInt(window.getComputedStyle(sprite).height.replace("px", ""));
         // SPRITE_WIDTH = parseInt(window.getComputedStyle(sprite).width.replace("px", ""));

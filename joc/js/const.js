@@ -14,6 +14,7 @@ function Const() {
     var CODE_BLOCK_SPEED_INTERVAL =200;
     var STEP_CONSTANT = 10;
     var OBSTACLE_STEP = 10;
+    var GAME_DURATION = 50000;
 
 
     this.getSpriteHeight = function() {
@@ -69,6 +70,10 @@ function Const() {
 
     this.getObstacleStep = function() {
         return OBSTACLE_STEP;
+    }
+
+    this.getGameDuration = function() {
+        return GAME_DURATION;
     }
 
 
