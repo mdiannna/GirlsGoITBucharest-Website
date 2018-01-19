@@ -15,7 +15,7 @@ function Const() {
     var STEP_CONSTANT = 10;
     var OBSTACLE_STEP = 10;
     var GAME_DURATION = 50000;
-
+    var SCORE_ADD = 10;
 
     this.getSpriteHeight = function() {
         return SPRITE_HEIGHT;
@@ -74,6 +74,10 @@ function Const() {
 
     this.getGameDuration = function() {
         return GAME_DURATION;
+    }
+
+    this.getScoreAdd = function() {
+        return SCORE_ADD;
     }
 
 

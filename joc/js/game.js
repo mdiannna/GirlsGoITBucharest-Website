@@ -27,6 +27,8 @@ var gameStatus;
 var languages;
 var winMessage;
 var winGameFunction;
+var playerScore;
+var SCORE_ADD;
 
 
 var obstacles = [];
@@ -61,6 +63,7 @@ var codeBlocksData = ["function sum(){", "}", 'alert("something")',
 
 
 function initValues() {
+    playerScore = 0;
     spritePositionTop = 0;
     spritePositionLeft = 0;
     codeBlocksTop = [];
@@ -106,6 +109,7 @@ function initValues() {
     CODE_BLOCK_SPEED_INTERVAL = constants.getCodeBlockSpeedInterval();
     STEP_CONSTANT = constants.getStepConstant();
     GAME_DURATION = constants.getGameDuration();
+    SCORE_ADD = constants.getScoreAdd();
    
 }
 
@@ -193,6 +197,24 @@ window.onload = function()
         }
     }
 
+
+    function getRandomColor() {
+      var letters = '0123456789ABCDEF';
+      var color = '#';
+      for (var i = 0; i < 6; i++) {
+        if (i == 0 || i == 1) {
+            color += letters[Math.floor(Math.random() * 7)];    
+
+        }
+        else {
+            color += letters[Math.floor(Math.random() * 16)];    
+        }
+        
+      }
+
+      return color;
+    }
+
     function setGame() {
         var settingsContainer;
         var pageTitle;
@@ -218,6 +240,60 @@ window.onload = function()
         
         var startGameButton;
 
+        message = {
+            showInfo:function(mymessage) {
+                var messageDiv = document.createElement("div");
+                messageDiv.style.position = "absolute";
+                messageDiv.style.backgroundColor = getRandomColor();
+                messageDiv.style.opacity = "0.9";
+                messageDiv.style.top = "100px";
+                messageDiv.style.left = Math.floor(Math.random() * windowWidth + 100) - 200 + "px";
+                messageDiv.style.width = "100px";
+                // messageDiv.style.height = "50px";
+                messageDiv.style.zIndex = "120";
+                // messageDiv.style.border = "1px solid #ff00ff";
+                messageDiv.innerHTML = mymessage;
+                document.body.appendChild(messageDiv);
+                setTimeout(function() {
+                    document.body.removeChild(messageDiv);
+                }, 2000);
+            },
+
+            showError:function(mymessage) {
+                var messageDiv = document.createElement("div");
+                messageDiv.style.position = "absolute";
+                messageDiv.style.backgroundColor = "red";
+                messageDiv.style.opacity = "0.9";
+                messageDiv.style.top = "100px";
+                messageDiv.style.left = Math.floor(Math.random() * windowWidth + 100) - 200 + "px";
+                messageDiv.style.width = "100px";
+                // messageDiv.style.height = "50px";
+                messageDiv.style.zIndex = "120";
+                messageDiv.style.border = "1px solid #ff0000";
+                messageDiv.innerHTML = mymessage;
+                document.body.appendChild(messageDiv);
+                setTimeout(function() {
+                    document.body.removeChild(messageDiv);
+                }, 2000);
+            },
+            showWinMessage:function(mymessage) {
+                  var messageDiv = document.createElement("div");
+                messageDiv.style.position = "absolute";
+                messageDiv.style.backgroundColor = "white";
+                messageDiv.style.color = "magenta";
+                messageDiv.style.opacity = "0.9";
+                messageDiv.style.top = "100px";
+                messageDiv.style.left = 0;
+                messageDiv.style.width = Math.floor(windowWidth * 0.8);
+                messageDiv.style.height = Math.floor(windowHeight * 0.8);
+                // messageDiv.style.height = "50px";
+                messageDiv.style.zIndex = "120";
+                messageDiv.style.border = "1px solid #ff0000";
+                messageDiv.innerHTML = mymessage;
+                document.body.appendChild(messageDiv);
+            }
+
+        }
         settings = {
             createSettingsContainer:function() {
                 settingsContainer = document.createElement("div");
@@ -510,6 +586,7 @@ window.onload = function()
                            
 
                         } else {
+                            // message.showInfo("Can't load previous data");
                             alert("Can't load previous data");
                             validateData = false;
                         }    
@@ -618,13 +695,9 @@ window.onload = function()
 
     function playGame() {
         function init() {
-            windowWidth = window.innerWidth
-            || document.documentElement.clientWidth
-            || document.body.clientWidth;
+            windowWidth = window.innerWidth;
 
-             windowHeight = window.innerHeight
-            || document.documentElement.clientHeight
-            || document.body.clientHeight;
+             windowHeight = window.innerHeight;
             
             spritePositionLeft = Math.floor(windowWidth/2 - SPRITE_WIDTH/2);   
             spritePositionTop = Math.floor(windowHeight/2);   
@@ -780,13 +853,17 @@ window.onload = function()
                 playerInfo.style.lineHeight = "0";
                 playerInfo.style.color = "white";
                 
-                playerInfo.innerHTML ="<span><p>Function: " + FUNCTION 
-                + "  &nbsp; | Player: " + spriteName + "</span>";
+                playerInfo.innerHTML ="<span><p>Score:" + playerScore + "&nbsp; | &nbsp;Function: " + FUNCTION 
+                + "  &nbsp; | &nbsp;Player: " + spriteName + "</span>";
+
 
                 gameStatus.appendChild(lives);
                 gameStatus.appendChild(playerInfo);
 
                 document.body.appendChild(gameStatus);
+
+
+
             },
             gameOver:function() {
                 gameStatus = "lost";
@@ -803,7 +880,7 @@ window.onload = function()
                 var startAgainBtn = document.createElement("button");
                 startAgainBtn.innerHTML = "Start again";
                 startAgainBtn.style.position = "absolute";
-                startAgainBtn.style.left = Math.floor(0.5 * windowWidth - 30) + "px";
+                startAgainBtn.style.left = Math.floor(Math.random() * 0.5 * windowWidth - 30) + "px";
                 // startAgainBtn.style.left = "50%";
 
                 startAgainBtn.addEventListener("click", function(event){
@@ -832,7 +909,8 @@ window.onload = function()
             showWinGame:function() {
                 if(gameStatus == "win") {
                     clearScreen();
-                    alert(winMessage);
+                    // alert(winMessage);
+                    message.showWinMessage(winMessage);
                     var restartBtn = document.createElement("button");
                     restartBtn.innerHTML = "Restart game";
                     restartBtn.onclick = function(event) {
@@ -841,6 +919,18 @@ window.onload = function()
                     document.body.append(restartBtn);
                 }
 
+            },
+            addRestartBtn:function() {
+                var restartBtn = document.createElement("button");
+                restartBtn.innerHTML = "Restart game";
+                restartBtn.style.bottom = "20px";
+                restartBtn.style.right = "20px";
+                restartBtn.style.position = "absolute";
+
+                restartBtn.onclick = function(event) {
+                    document.location.reload();
+                }
+                document.body.append(restartBtn);
             }
 
 
@@ -850,8 +940,8 @@ window.onload = function()
          function moveObstacle(obj) {
                 if(colision.detectColision(obj, sprite, "obstacle") == true) {
                     if(obj.lastColisioned==false) {
-                        alert("Colision with obstacle detected! -1 life");
-                        
+                        // alert("Colision winth obstacle detected! -1 life");
+                        message.showError("Colision winth obstacle detected! -1 life");
                         obj.lastColisioned = true;
                         game.decreaseLives();    
                     }
@@ -875,6 +965,8 @@ window.onload = function()
                 if(colision.detectColision(obj, sprite, "codeBlock") == true) {
                     if(obj.lastColisioned==false) {
                         // alert("Colisionwith code block detected!");    
+                        message.showInfo("+1 code block");
+                        playerScore += SCORE_ADD;
                         obj.lastColisioned = true;
                         if(document.body.contains(obj)) {
                         clearInterval(obj.interval);
@@ -889,7 +981,8 @@ window.onload = function()
                         if(document.body.contains(obj)) {
                         clearInterval(obj.interval);
                         document.body.removeChild(obj);
-                        alert("+1 in backpack");
+                        // alert("+1 in backpack");
+                        message.showInfo("+1 in backpack");
                     }
                 } 
 
@@ -915,6 +1008,7 @@ window.onload = function()
         game.showObject(sprite);
         game.createBackpack();
         game.showObject(backpack);
+        game.addRestartBtn();
         winGameFunction = setTimeout(game.showWinGame, GAME_DURATION);
     
 
@@ -972,6 +1066,11 @@ window.onload = function()
 
         function update() {
             // var codeBlocks = document.querySelectorAll(".codeBlock");
+            if(document.body.contains(document.getElementById("playerInfo"))) {
+                document.getElementById("playerInfo").innerHTML ="<span><p>Score:" + playerScore + "&nbsp; | &nbsp;Function: " + FUNCTION 
+                + "  &nbsp; | &nbsp;Player: " + spriteName + "</span>";
+    
+            }
             
             document.getElementById("sprite").style.top = spritePositionTop + "px";
             document.getElementById("sprite").style.left = spritePositionLeft + "px";
