@@ -79,14 +79,23 @@ window.onload = function()
         var pageTitle;
         var nameText;
         var nameTextLabel;
+        var nrOfLivesRadio1;
+        var nrOfLivesRadioLabel1;
+        var nrOfLivesRadio2;
+        var nrOfLivesRadioLabel2;
         var nrOfLivesNumber;
         var nrOfLivesNumberLabel;
         var speedRange;
         var speedRangeLabel;
-        var obstacleTypeRadio;
-        var obstacleTypeRadioLabel;
+        var functionSelect;
+        var functionSelectLabel;
+        var languageMultipleSelect
+        var languageMultipleSelectLabel
+        var winMessageTextArea;
+        var winMessageTextAreaLabel;
         var loadSettingsCheckbox;
         var loadSettingsCheckboxLabel;
+        
         var startGameButton;
 
         settings = {
@@ -111,22 +120,115 @@ window.onload = function()
                 pageTitle.style.fontSize = "3em";
                 pageTitle.style.textAlign = "center";
                 pageTitle.innerHTML = "Settings";
+
+
+                loadSettingsCheckboxLabel = document.createElement("label");
+                loadSettingsCheckboxLabel.innerHTML = "Load previous settings";
+                loadSettingsCheckboxLabel.style.color = "black";
+                loadSettingsCheckbox = document.createElement("input");
+                loadSettingsCheckbox.type = "checkbox";
+                loadSettingsCheckbox.name = "loadSettingsCheckbox";
+                loadSettingsCheckbox.id = "loadSettingsCheckbox"; 
+
               
                 nameTextLabel = document.createElement("label");
                 nameTextLabel.innerHTML = "Your name: ";
-                // nameTextLabel.style.display = "block";
                 nameTextLabel.style.color = "black";
-                // nameTextLabel.style.textAlign = "center";
+                nameTextLabel.style.display = "block";  
 
                 nameText = document.createElement("input");
                 nameText.type = "text";
                 nameText.id = "nameText"; 
                 nameText.placeholder = "Your name...";
+                nameText.style.display = "block";  
                 // nameText.style.textAlign = "center";
-                // 
-                // 
-                // 
                 
+                // Nr of lives radio
+                nrOfLivesRadioLabel1 = document.createElement("label");
+                nrOfLivesRadioLabel1.innerHTML = "1 life";
+                nrOfLivesRadioLabel1.style.color = "black";
+                // nrOfLivesRadioLabel1.style.display = "block";  
+                nrOfLivesRadio1 = document.createElement("input");
+                nrOfLivesRadio1.type = "radio";
+                nrOfLivesRadio1.name = "nrOfLivesRadio";
+                nrOfLivesRadio1.id = "nrOfLivesRadio1"; 
+                // nrOfLivesRadio1.id = "nrOfLivesRadio1"; 
+
+                nrOfLivesRadioLabel2 = document.createElement("label");
+                nrOfLivesRadioLabel2.innerHTML = "multiple lifes";
+                nrOfLivesRadioLabel2.style.color = "black";
+                nrOfLivesRadio2 = document.createElement("input");
+                nrOfLivesRadio2.name = "nrOfLivesRadio";
+                nrOfLivesRadio2.type = "radio";
+                nrOfLivesRadio2.id = "nrOfLivesRadio2"; 
+
+
+
+
+                nrOfLivesNumberLabel = document.createElement("label");
+                nrOfLivesNumberLabel.innerHTML = "Nr of lives: ";
+                nrOfLivesNumberLabel.style.color = "black";
+                nrOfLivesNumberLabel.style.display = "block";  
+
+                nrOfLivesNumber = document.createElement("input");
+                nrOfLivesNumber.type = "number";
+                nrOfLivesNumber.id = "nrOfLivesNumber"; 
+
+
+                speedRangeLabel = document.createElement("label");
+                speedRangeLabel.innerHTML = "Speed: ";
+                speedRangeLabel.style.color = "black";
+                speedRangeLabel.style.display = "block";  
+
+                speedRange = document.createElement("input");
+                speedRange.type = "range";
+                speedRange.min = 1;
+                speedRange.max = 5;
+                speedRange.id = "speedRange"; 
+
+
+                functionSelectLabel = document.createElement("label");
+                functionSelectLabel.innerHTML = "Function";
+                functionSelectLabel.style.color = "black";
+                functionSelectLabel.style.display = "block";  
+
+                functionSelect = document.createElement("select");
+                // functionSelect.type = "select";
+                functionSelect.id = "functionSelect"; 
+
+                var functionSelectOption1 = document.createElement("option");
+                functionSelectOption1.value = "1";
+                functionSelectOption1.name = "Test1";
+                functionSelectOption1.innerHTML = "Test1";
+                functionSelect.appendChild(functionSelectOption1);
+
+
+
+                languageMultipleSelectLabel = document.createElement("label");
+                languageMultipleSelectLabel.innerHTML = "Languages:";
+                languageMultipleSelectLabel.style.color = "black";
+                languageMultipleSelectLabel.style.display = "block";  
+
+                languageMultipleSelect = document.createElement("select");
+                // languageMultipleSelect.type = "select";
+                languageMultipleSelect.multiple = "multiple";
+                languageMultipleSelect.id = "languageMultipleSelect"; 
+
+                var languageMultipleSelectOption1 = document.createElement("option");
+                languageMultipleSelectOption1.value = "1";
+                languageMultipleSelectOption1.name = "Test1";
+                languageMultipleSelectOption1.innerHTML = "Test1";
+                languageMultipleSelect.appendChild(languageMultipleSelectOption1);
+
+
+                winMessageTextAreaLabel = document.createElement("label");
+                winMessageTextAreaLabel.innerHTML = "Win message:";
+                winMessageTextAreaLabel.style.color = "black";
+                winMessageTextAreaLabel.style.display = "block";  
+
+                winMessageTextArea = document.createElement("textarea");
+                winMessageTextArea.id = "winMessageTextArea"; 
+
 
                 startGameButton = document.createElement("button");
                 startGameButton.id = "startGameButton";
@@ -149,10 +251,47 @@ window.onload = function()
 
             showSettingsPage:function() {
                 clearScreen();
+                
                 settingsContainer.appendChild(pageTitle);
+                settingsContainer.appendChild(loadSettingsCheckbox);
+                settingsContainer.appendChild(loadSettingsCheckboxLabel);
                 settingsContainer.appendChild(nameTextLabel);
                 settingsContainer.appendChild(nameText);
+                settingsContainer.appendChild(nrOfLivesRadio1);
+                settingsContainer.appendChild(nrOfLivesRadioLabel1);
+                settingsContainer.appendChild(nrOfLivesRadio2);
+                settingsContainer.appendChild(nrOfLivesRadioLabel2);
+                settingsContainer.appendChild(speedRangeLabel);
+                settingsContainer.appendChild(speedRange);
+                
+                settingsContainer.appendChild(functionSelectLabel);
+                settingsContainer.appendChild(functionSelect);
+                settingsContainer.appendChild(languageMultipleSelectLabel);
+                settingsContainer.appendChild(languageMultipleSelect);
+                settingsContainer.appendChild(winMessageTextAreaLabel);
+                settingsContainer.appendChild(winMessageTextArea);
+
                 settingsContainer.appendChild(startGameButton);
+
+                nrOfLivesRadio2.onchange = function() {
+                    if(this.checked) {
+                        settingsContainer.insertBefore(nrOfLivesNumberLabel, speedRangeLabel);
+                        settingsContainer.insertBefore(nrOfLivesNumber, speedRangeLabel);
+                    } 
+                }
+
+                nrOfLivesRadio1.onchange = function() {
+                    if(this.checked) {
+                        if(settingsContainer.contains(nrOfLivesNumberLabel)) {
+                            settingsContainer.removeChild(nrOfLivesNumberLabel);
+                        }
+                        if(settingsContainer.contains(nrOfLivesNumber)) {
+                            settingsContainer.removeChild(nrOfLivesNumber);
+                        }
+                    }
+                }
+                
+
                 document.body.appendChild(settingsContainer);
 
             }
