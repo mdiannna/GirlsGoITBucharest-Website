@@ -105,11 +105,11 @@ window.onload = function()
                 settingsContainer.style.backgroundColor = "white";
                 settingsContainer.style.marginLeft = "10vw";
                 settingsContainer.style.marginRight = "10vw";
-                settingsContainer.style.marginTop = "10vw";
+                settingsContainer.style.marginTop = "3vw";
                 settingsContainer.style.marginBottom = "10vw";  
                 settingsContainer.style.paddingLeft = "10vw";
                 settingsContainer.style.paddingRight = "10vw";
-                settingsContainer.style.paddingTop = "1vw";
+                settingsContainer.style.paddingTop = "0.4vw";
                 settingsContainer.style.paddingBottom = "5vw";  
                 settingsContainer.style.display = "block";  
             },
@@ -236,8 +236,6 @@ window.onload = function()
                 startGameButton.textAlign = "center";
                 startGameButton.style.display = "block";
                 startGameButton.style.marginTop = "2vw";
-                // startGameButton.style.float="center";
-                // startGameButton.style.float="right";
                 startGameButton.addEventListener("click", function(event) {
                     if(nameText.value && nameText.value!= undefined && nameText.value != "") {
                         spriteName = nameText.value;
@@ -245,6 +243,46 @@ window.onload = function()
                     clearScreen();
                     playGame();                    
                 });
+                
+                loadSettingsCheckbox.onchange = function() {
+                    if(this.checked) {
+                        settingsContainer.removeChild(nameTextLabel);
+                        settingsContainer.removeChild(nameText);
+                        settingsContainer.removeChild(nrOfLivesRadio1);
+                        settingsContainer.removeChild(nrOfLivesRadioLabel1);
+                        settingsContainer.removeChild(nrOfLivesRadio2);
+                        settingsContainer.removeChild(nrOfLivesRadioLabel2);
+                        settingsContainer.removeChild(speedRangeLabel);
+                        settingsContainer.removeChild(speedRange);
+                        settingsContainer.removeChild(functionSelectLabel);
+                        settingsContainer.removeChild(functionSelect);
+                        settingsContainer.removeChild(languageMultipleSelectLabel);
+                        settingsContainer.removeChild(languageMultipleSelect);
+                        settingsContainer.removeChild(winMessageTextAreaLabel);
+                        settingsContainer.removeChild(winMessageTextArea);                        
+
+                    } else {
+                          settingsContainer.insertBefore(nameTextLabel, startGameButton);
+                        settingsContainer.insertBefore(nameText, startGameButton);
+                        settingsContainer.insertBefore(nrOfLivesRadio1, startGameButton);
+                        settingsContainer.insertBefore(nrOfLivesRadioLabel1, startGameButton);
+                        settingsContainer.insertBefore(nrOfLivesRadio2, startGameButton);
+                        settingsContainer.insertBefore(nrOfLivesRadioLabel2, startGameButton);
+                        settingsContainer.insertBefore(speedRangeLabel, startGameButton);
+                        settingsContainer.insertBefore(speedRange, startGameButton);
+                        settingsContainer.insertBefore(functionSelectLabel, startGameButton);
+                        settingsContainer.insertBefore(functionSelect, startGameButton);
+                        settingsContainer.insertBefore(languageMultipleSelectLabel, startGameButton);
+                        settingsContainer.insertBefore(languageMultipleSelect, startGameButton);
+                        settingsContainer.insertBefore(winMessageTextAreaLabel, startGameButton);
+                        settingsContainer.insertBefore(winMessageTextArea, startGameButton);
+
+
+        
+                    }
+                }
+
+                
 
 
             },
