@@ -32,7 +32,8 @@ var codeBlocks = [];
 var sprite;
 var backpack;
 
-var STEP;
+var spriteStep;
+var STEP_CONSTANT;
 var OBSTACLE_STEP;
 
 var spriteName;
@@ -59,7 +60,7 @@ function initValues() {
     sprite = undefined;
     backpack = undefined;
 
-    STEP = 10;
+    spriteStep = 10;
     OBSTACLE_STEP = 10;
 
     // Default values
@@ -83,6 +84,7 @@ function initValues() {
     CODE_BLOCK_INVERSE_FREQUENCY= constants.getCodeBlockInverseFrequency();
     OBSTACLE_SPEED_INTERVAL = constants.getObstacleSpeedInterval();
     CODE_BLOCK_SPEED_INTERVAL = constants.getCodeBlockSpeedInterval();
+    STEP_CONSTANT = constants.getStepConstant();
    
 }
 
@@ -407,24 +409,27 @@ window.onload = function()
 
                 startGameButton.addEventListener("click", function(event) {
                     var validateData = true;
+                    var loadFromStorage = false;
 
                     var spriteNameNew;
                     var nrOfLivesTotalNew;
                     var WIN_MESSAGE_New;
-                    var STEP_New;
+                    var spriteStepNew;
                     var FUNCTION_New;
 
                             
                     if(loadSettingsCheckbox.checked) {
                         if(parseInt(localStorage.getItem("hasData")) == 1) {
+                            loadFromStorage = true;
                             spriteName = localStorage.getItem("spriteName");
-                            nrOfLivesTotal = localStorage.getItem("nrOfLivesTotal");
+                            nrOfLivesTotal = parseInt(localStorage.getItem("nrOfLivesTotal"));
                             nrOfLivesCurrent = nrOfLivesTotal;
                             winMessage = localStorage.getItem("winMessage");
-                            STEP = localStorage.getItem("spriteStep");
+                            spriteStep = parseInt(localStorage.getItem("spriteStep"));
+                            alert("spriteStep:" + spriteStep);
                             FUNCTION = localStorage.getItem("function");
 
-                            var nrLanguages = localStorage.getItem("nrLanguages");
+                            var nrLanguages = parseInt(localStorage.getItem("nrLanguages"));
                             
                             for(var i=1; i<=nrLanguages; i++) {
                                 languages.push(localStorage.getItem("language" + i));
@@ -468,7 +473,7 @@ window.onload = function()
 
                         }
                         // alert(speedRange.value);
-                        STEP_New = STEP * speedRange.value;
+                        spriteStepNew = STEP_CONSTANT * speedRange.value;
 
                         var functionSelectOptions = functionSelect.children;
                         for(var i=0; i<functionSelectOptions.length; i++) {
@@ -495,15 +500,18 @@ window.onload = function()
 
 
                     if(validateData == true) {
-                        spriteName = spriteNameNew;
-                        nrOfLivesTotal = nrOfLivesTotalNew;
-                        nrOfLivesCurrent = nrOfLivesTotalNew;
-                        winMessage = WIN_MESSAGE_New;
-                        STEP = STEP_New;
-                        FUNCTION = FUNCTION_New;
+                        if(loadFromStorage == false) {
+                            spriteName = spriteNameNew;
+                            nrOfLivesTotal = nrOfLivesTotalNew;
+                            nrOfLivesCurrent = nrOfLivesTotalNew;
+                            winMessage = WIN_MESSAGE_New;
+                            spriteStep = spriteStepNew;
+                            FUNCTION = FUNCTION_New;     
+                        }
+                       
 
                         localStorage.setItem("hasData","1");
-                        localStorage.setItem("spriteName", spriteNameNew);
+                        localStorage.setItem("spriteName", spriteName);
                         localStorage.setItem("nrOfLivesTotal", nrOfLivesTotal);
                         localStorage.setItem("winMessage", winMessage);
                         localStorage.setItem("spriteStep", spriteStep);
@@ -516,7 +524,9 @@ window.onload = function()
                         
 
                         clearScreen();
-                        playGame();                        
+                        alert("sprite step:" + spriteStep);                  
+                        playGame();      
+
                     } else {
                         alert("Input data incorrect or missing! Please check and try again!");
                     }
@@ -803,26 +813,25 @@ window.onload = function()
 
        
         document.onkeypress=function(e){
-        
             
-            if (e.keyCode == '119' && spritePositionTop-STEP >0) {
+            if (e.keyCode == '119' && spritePositionTop-spriteStep >0) {
                 // up arrow
-                spritePositionTop -= STEP;
+                spritePositionTop -= spriteStep;
             }
             // else if (e.keyCode == '40'  && spritePositionTop < windowHeight) {
             else if (e.keyCode == '115'  && spritePositionTop+SPRITE_HEIGHT < windowHeight) {
                 // down arrow
-                spritePositionTop += STEP;
+                spritePositionTop += spriteStep;
             }
-            // else if (e.keyCode == '37' && spritePositionLeft-STEP > 0) {
-            else if (e.keyCode == '97' && spritePositionLeft-STEP > 0) {
+            // else if (e.keyCode == '37' && spritePositionLeft-spriteStep > 0) {
+            else if (e.keyCode == '97' && spritePositionLeft-spriteStep > 0) {
                // left arrow
-               spritePositionLeft -= STEP;
+               spritePositionLeft -= spriteStep;
             }
             // else if (e.keyCode == '39' && spritePositionLeft < windowWidth) {
             else if (e.keyCode == '100' && spritePositionLeft+SPRITE_WIDTH < windowWidth) {
                // right arrow
-               spritePositionLeft += STEP;
+               spritePositionLeft += spriteStep;
             }
         }
 

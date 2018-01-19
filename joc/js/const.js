@@ -12,7 +12,7 @@ function Const() {
     var CODE_BLOCK_INVERSE_FREQUENCY= 300;
     var OBSTACLE_SPEED_INTERVAL =100;
     var CODE_BLOCK_SPEED_INTERVAL =100;
-    var STEP = 10;
+    var STEP_CONSTANT = 10;
     var OBSTACLE_STEP = 10;
 
 
@@ -63,11 +63,13 @@ function Const() {
         return CODE_BLOCK_SPEED_INTERVAL;
     }
 
-    this.getStep = function() {
-        return STEP;
+    this.getStepConstant = function() {
+        return STEP_CONSTANT;
     }
 
     this.getObstacleStep = function() {
         return OBSTACLE_STEP;
     }
+
+
 }
