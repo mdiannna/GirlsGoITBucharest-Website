@@ -201,7 +201,7 @@ window.onload = function()
 
               
                 nameTextLabel = document.createElement("label");
-                nameTextLabel.innerHTML = "Your name: ";
+                nameTextLabel.innerHTML = "Your name: (min 3 letters) ";
                 nameTextLabel.style.color = "black";
                 nameTextLabel.style.display = "block";  
 
@@ -413,6 +413,12 @@ window.onload = function()
                     // TODO: RegExp numai caractere, minim 3, validare
                     if(nameText.value && nameText.value!= undefined && nameText.value != "") {
                         spriteNameNew = nameText.value;
+                        var re = new RegExp('^[a-zA-Z]{3,}$');
+                        // var re = new RegExp('^[a-zA-Z]+$');
+                        if(re.test(spriteNameNew)== false) {
+                            validateData = false;
+                        }
+
                     } else {
                         validateData = false;
                         // alert("name");
