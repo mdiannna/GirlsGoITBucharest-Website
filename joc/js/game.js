@@ -8,6 +8,8 @@ var codeBlocksLeft = [];
     
 var SPRITE_HEIGHT = 200;
 var SPRITE_WIDTH = 100;
+var BACKPACK_HEIGHT = 150;
+var BACKPACK_WIDTH = 150;
 var OBSTACLE_HEIGHT = 70;
 var OBSTACLE_WIDTH = 100;
 var CODE_BLOCK_HEIGHT = 150;
@@ -23,6 +25,7 @@ var obstacles = [];
 var codeBlocks = [];
 
 var sprite;
+var backpack;
 
 var STEP = 20;
 var OBSTACLE_STEP = 10;
@@ -77,6 +80,7 @@ window.onload = function()
     function setGame() {
         var settingsContainer;
         var pageTitle;
+        var greeting;
         var nameText;
         var nameTextLabel;
         var nrOfLivesRadio1;
@@ -105,7 +109,7 @@ window.onload = function()
                 settingsContainer.style.backgroundColor = "white";
                 settingsContainer.style.marginLeft = "10vw";
                 settingsContainer.style.marginRight = "10vw";
-                settingsContainer.style.marginTop = "3vw";
+                settingsContainer.style.marginTop = "1vw";
                 settingsContainer.style.marginBottom = "10vw";  
                 settingsContainer.style.paddingLeft = "10vw";
                 settingsContainer.style.paddingRight = "10vw";
@@ -116,8 +120,27 @@ window.onload = function()
 
             createSettingsPage:function() {
                 this.createSettingsContainer();
+
+
+                var today, someday;
+                today = new Date();
+                someday = new Date();
+                someday.setHours(18);
+
+                if (today.getHours() < someday.getHours()) {
+                    text = "Hello! Welcome in the game!";
+                } else {
+                    text = "Good evening! Nice to have you here";
+                }
+
+                greeting = document.createElement("p");
+                greeting.style.fontSize = "2em";
+                greeting.style.textAlign = "center";
+                greeting.innerHTML = text;
+
+
                 pageTitle = document.createElement("p");
-                pageTitle.style.fontSize = "3em";
+                pageTitle.style.fontSize = "2.3em";
                 pageTitle.style.textAlign = "center";
                 pageTitle.innerHTML = "Settings";
 
@@ -262,7 +285,7 @@ window.onload = function()
                         settingsContainer.removeChild(winMessageTextArea);                        
 
                     } else {
-                          settingsContainer.insertBefore(nameTextLabel, startGameButton);
+                        settingsContainer.insertBefore(nameTextLabel, startGameButton);
                         settingsContainer.insertBefore(nameText, startGameButton);
                         settingsContainer.insertBefore(nrOfLivesRadio1, startGameButton);
                         settingsContainer.insertBefore(nrOfLivesRadioLabel1, startGameButton);
@@ -290,6 +313,7 @@ window.onload = function()
             showSettingsPage:function() {
                 clearScreen();
                 
+                settingsContainer.appendChild(greeting);
                 settingsContainer.appendChild(pageTitle);
                 settingsContainer.appendChild(loadSettingsCheckbox);
                 settingsContainer.appendChild(loadSettingsCheckboxLabel);
@@ -390,6 +414,7 @@ window.onload = function()
                 var obstacle = document.createElement("div");
                 obstacle.classList.add("obstacle");
                 obstacle.style.position = "absolute";
+                obstacle.style.zIndex = "4";
                 var obstacleTop = -200;
                 var obstacleLeft = Math.floor(Math.random() * WINDOW_WIDTH);
                 obstacle.style.top = obstacleTop + "px";
@@ -404,6 +429,21 @@ window.onload = function()
                 obstacle.lastColisioned = false;
 
                 return obstacle;
+            },
+
+            createBackpack: function() {
+                backpack  = document.createElement("div");
+                backpack.style.position = "absolute";
+                backpack.style.bottom =  "30px";
+                backpack.style.zIndex =  "6";
+                backpack.style.left =  "30px";
+                backpack.style.width = BACKPACK_WIDTH + "px";
+                backpack.style.height = BACKPACK_HEIGHT + "px";
+                backpackImage = document.createElement("img");
+                backpackImage.setAttribute("src", "img/backpack.png");
+                 backpackImage.style.width = BACKPACK_WIDTH + "px";
+                backpackImage.style.height = BACKPACK_HEIGHT + "px";
+                backpack.appendChild(backpackImage);   
             },
 
             showObject: function(obj) {
@@ -580,6 +620,8 @@ window.onload = function()
         game.createStatusBar();
         game.createSprite();
         game.showObject(sprite);
+        game.createBackpack();
+        game.showObject(backpack);
 
         // SPRITE_HEIGHT = parseInt(window.getComputedStyle(sprite).height.replace("px", ""));
         // SPRITE_WIDTH = parseInt(window.getComputedStyle(sprite).width.replace("px", ""));
