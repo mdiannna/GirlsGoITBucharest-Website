@@ -1,25 +1,30 @@
 // TODO: constants file separately
 
-var spritePositionTop = 0;
-var spritePositionLeft = 0;
+var spritePositionTop;
+var spritePositionLeft;
 var codeBlocksTop = [];
 var codeBlocksLeft = [];
 
     
-var SPRITE_HEIGHT = 200;
-var SPRITE_WIDTH = 100;
-var BACKPACK_HEIGHT = 150;
-var BACKPACK_WIDTH = 150;
-var OBSTACLE_HEIGHT = 70;
-var OBSTACLE_WIDTH = 100;
-var CODE_BLOCK_HEIGHT = 150;
-var CODE_BLOCK_WIDTH = 300;
+var SPRITE_HEIGHT;
+var SPRITE_WIDTH;
+var BACKPACK_HEIGHT;
+var BACKPACK_WIDTH;
+var OBSTACLE_HEIGHT;
+var OBSTACLE_WIDTH;
+var CODE_BLOCK_HEIGHT;
+var CODE_BLOCK_WIDTH;
 var WINDOW_WIDTH;
 var WINDOW_HEIGHT;
-var OBSTACLE_INVERSE_FREQUENCY= 220;
-var CODE_BLOCK_INVERSE_FREQUENCY= 300;
-var OBSTACLE_SPEED_INTERVAL =100;
-var CODE_BLOCK_SPEED_INTERVAL =100;
+var OBSTACLE_INVERSE_FREQUENCY;
+var CODE_BLOCK_INVERSE_FREQUENCY;
+var OBSTACLE_SPEED_INTERVAL;
+var CODE_BLOCK_SPEED_INTERVAL;
+// settings parameters
+var FUNCTION;
+var LANGUAGES;
+var WIN_MESSAGE;
+
 
 var obstacles = [];
 var codeBlocks = [];
@@ -27,13 +32,54 @@ var codeBlocks = [];
 var sprite;
 var backpack;
 
-var STEP = 20;
-var OBSTACLE_STEP = 10;
+var STEP;
+var OBSTACLE_STEP;
 
-// Default values
-var spriteName = "Player1";
-var nrOfLivesTotal = 3;
-var nrOfLivesCurrent = 3;
+var spriteName;
+var nrOfLivesTotal;
+var nrOfLivesCurrent;
+
+
+
+function initValues() {
+    spritePositionTop = 0;
+    spritePositionLeft = 0;
+    codeBlocksTop = [];
+    codeBlocksLeft = [];
+
+    SPRITE_HEIGHT = 200;
+    SPRITE_WIDTH = 100;
+    BACKPACK_HEIGHT = 150;
+    BACKPACK_WIDTH = 150;
+    OBSTACLE_HEIGHT = 70;
+    OBSTACLE_WIDTH = 100;
+    CODE_BLOCK_HEIGHT = 150;
+    CODE_BLOCK_WIDTH = 300;
+    WINDOW_WIDTH = 0;
+    WINDOW_HEIGHT = 0;
+    OBSTACLE_INVERSE_FREQUENCY= 220;
+    CODE_BLOCK_INVERSE_FREQUENCY= 300;
+    OBSTACLE_SPEED_INTERVAL =100;
+    CODE_BLOCK_SPEED_INTERVAL =100;
+    // settings parameters
+    FUNCTION = "";
+    LANGUAGES = [];
+    WIN_MESSAGE = "Congratulations! You won!";
+
+    obstacles = [];
+    codeBlocks = [];
+
+    sprite = undefined;
+    backpack = undefined;
+
+    STEP = 10;
+    OBSTACLE_STEP = 10;
+
+    // Default values
+    spriteName = "Player1";
+    nrOfLivesTotal = 3;
+    nrOfLivesCurrent = 3;
+}
 
 
 
@@ -251,6 +297,7 @@ window.onload = function()
 
                 winMessageTextArea = document.createElement("textarea");
                 winMessageTextArea.id = "winMessageTextArea"; 
+                winMessageTextArea.innerHTML = WIN_MESSAGE; 
 
 
                 startGameButton = document.createElement("button");
@@ -259,13 +306,7 @@ window.onload = function()
                 startGameButton.textAlign = "center";
                 startGameButton.style.display = "block";
                 startGameButton.style.marginTop = "2vw";
-                startGameButton.addEventListener("click", function(event) {
-                    if(nameText.value && nameText.value!= undefined && nameText.value != "") {
-                        spriteName = nameText.value;
-                    }
-                    clearScreen();
-                    playGame();                    
-                });
+                
                 
                 loadSettingsCheckbox.onchange = function() {
                     if(this.checked) {
@@ -356,20 +397,97 @@ window.onload = function()
 
                 document.body.appendChild(settingsContainer);
 
+            },
+            attachSettingsListener:function() {
+
+                startGameButton.addEventListener("click", function(event) {
+                    var validateData = true;
+
+                    var spriteNameNew;
+                    var nrOfLivesTotalNew;
+                    var nrOfLivesCurrentNew;
+                    var WIN_MESSAGE_New;
+                    var STEP_New;
+                    var FUNCTION_New;
+
+                    // TODO: RegExp numai caractere, minim 3, validare
+                    if(nameText.value && nameText.value!= undefined && nameText.value != "") {
+                        spriteNameNew = nameText.value;
+                    } else {
+                        validateData = false;
+                        // alert("name");
+                    }
+
+                    if(nrOfLivesRadio1.checked) {
+                        nrOfLivesTotalNew = 1;
+                        nrOfLivesCurrentNew = 1;
+                    } else if(nrOfLivesRadio2.checked && nrOfLivesNumber.value != undefined) {
+                        nrOfLivesTotalNew = nrOfLivesNumber.value;
+                        nrOfLivesCurrentNew = nrOfLivesNumber.value;
+                    }else {
+                        validateData = false;
+                        // alert("nr of lives");
+
+                    }
+
+                    if(winMessageTextArea.value != "" && winMessageTextArea.value != undefined) {
+                        WIN_MESSAGE_New = winMessageTextArea.value;
+                    } else {
+                        validateData = false;
+                        alert(WIN_MESSAGE);
+
+                    }
+                    // alert(speedRange.value);
+                    STEP_New = STEP * speedRange.value;
+
+                    var functionSelectOptions = functionSelect.children;
+                    for(var i=0; i<functionSelectOptions.length; i++) {
+                        if(functionSelectOptions[i].selected) {
+                            FUNCTION_New = functionSelectOptions[i];
+                        }
+                    }
+
+                    // Reset languages
+                    LANGUAGES = [];
+                    var languageMultipleOptions = languageMultipleSelect.children;
+                    for(var i=0; i<languageMultipleOptions.length; i++) {
+                        if(languageMultipleOptions[i].selected) {
+                            LANGUAGES.push(languageMultipleOptions[i].value);
+                        }
+                    }
+
+                    if(LANGUAGES.length == 0) {
+                        validateData = false;
+                        // alert("languages");
+
+                    }
+
+
+                    if(validateData == true) {
+                        spriteName = spriteNameNew;
+                        nrOfLivesTotal = nrOfLivesTotalNew;
+                        nrOfLivesCurrent = nrOfLivesCurrentNew;
+                        WIN_MESSAGE = WIN_MESSAGE_New;
+                        STEP = STEP_New;
+                        FUNCTION = FUNCTION_New;
+
+                        clearScreen();
+                        playGame();                        
+                    } else {
+                        alert("Input data incorrect or missing! Please check and try again!");
+                    }
+                    
+                });
+
             }
         }
 
         settings.createSettingsPage();
         settings.showSettingsPage();
+        settings.attachSettingsListener();
 
     }
 
-    function completeFeedback() {
-        // select2 - overall impression bine/rau etc
-        // select multiple - ce ti-a placut la joc
-        // select multiple - ce nu ti-a placut la joc
-        //textarea alte comentarii
-    }
 
     function playGame() {
         function init() {
@@ -389,7 +507,7 @@ window.onload = function()
 
 
         var game = {
-
+        
             createSprite: function() 
             {
                 sprite = document.createElement("div");
@@ -538,6 +656,7 @@ window.onload = function()
                 startAgainBtn.addEventListener("click", function(event){
                     // location.href = "#";
                     // Location.reload();
+                    initValues();
                     document.location.reload();
                 });
 
@@ -711,5 +830,6 @@ window.onload = function()
         // playGame();
     }
 
+    initValues();
     main();
 }
