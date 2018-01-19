@@ -40,6 +40,8 @@ var spriteName;
 var nrOfLivesTotal;
 var nrOfLivesCurrent;
 
+var currentMouseX;
+var currentMouseY;
 
 
 function initValues() {
@@ -117,12 +119,54 @@ var colision = {
             return true;
         }
         return false;
+    },
+     detectColisionBackpack: function(object, objType) {
+        var backpackLeft = parseInt(backpack.style.left.replace("px", ""));
+
+        var backpackTop = parseInt(window.getComputedStyle(backpack).top.replace("px", ""));
+        // alert(backpackLeft);
+        // alert(backpackTop);
+        var backpackWidth = BACKPACK_WIDTH;
+        var backpackHeight = BACKPACK_HEIGHT;
+
+        // defautls are for type "obstacle"
+        var objHeight = OBSTACLE_HEIGHT;
+        var objWidth = OBSTACLE_WIDTH;
+        var objLeft = parseInt(object.style.left.replace("px", ""));
+        var objTop = parseInt(object.style.top.replace("px", ""));
+
+        
+        if(objType == "codeBlock") {
+            objWidth = CODE_BLOCK_WIDTH;
+            objHeight= CODE_BLOCK_HEIGHT;
+        }
+        
+
+        if ( objLeft< backpackLeft + backpackWidth &&
+            objLeft + objWidth > backpackLeft &&
+            objTop < backpackTop + backpackHeight &&
+            objHeight + objTop > backpackTop) {
+            return true;
+        }
+        return false;
     }
 }
 
 
+
 window.onload = function() 
 {
+
+    document.onmousemove = function(event) {
+    currentMouseX = event.pageX;
+    currentMouseY = event.pageY;
+    console.log(currentMouseX);
+    console.log(currentMouseY);
+    // alert(currentMouseX);
+    // alert(currentMouseY);
+}
+
+
     function clearScreen() {
         document.body.innerHTML = "";
         while(document.body.children.length > 0) {
@@ -426,7 +470,7 @@ window.onload = function()
                             nrOfLivesCurrent = nrOfLivesTotal;
                             winMessage = localStorage.getItem("winMessage");
                             spriteStep = parseInt(localStorage.getItem("spriteStep"));
-                            alert("spriteStep:" + spriteStep);
+                            // alert("spriteStep:" + spriteStep);
                             FUNCTION = localStorage.getItem("function");
 
                             var nrLanguages = parseInt(localStorage.getItem("nrLanguages"));
@@ -469,7 +513,7 @@ window.onload = function()
                             WIN_MESSAGE_New = winMessageTextArea.value;
                         } else {
                             validateData = false;
-                            alert(winMessage);
+                            // alert(winMessage);
 
                         }
                         // alert(speedRange.value);
@@ -524,7 +568,7 @@ window.onload = function()
                         
 
                         clearScreen();
-                        alert("sprite step:" + spriteStep);                  
+                        // alert("sprite step:" + spriteStep);                  
                         playGame();      
 
                     } else {
@@ -596,6 +640,7 @@ window.onload = function()
                 obstacle.style.width = OBSTACLE_WIDTH + "px";
                 obstacleImage = document.createElement("img");
                 obstacleImage.setAttribute("src", "img/obstacles/obstacle1.png");
+                obstacleImage.style.width = OBSTACLE_WIDTH + "px";
                 // obstacleImage.setAttribute("src", "img/assets/asset1.svg");
                 obstacle.appendChild(obstacleImage);   
                 obstacle.lastColisioned = false;
@@ -640,6 +685,22 @@ window.onload = function()
                 codeBlock.appendChild(codeBlockImage);   
 
                 // codeBlocks.push(codeBlock);
+                
+                
+
+
+                codeBlock.ondragstart = function() {
+                  return false;
+                };
+
+               
+                codeBlock.onmousemove = function(event) {
+                    codeBlock.top = currentMouseY - 100;
+                    codeBlock.left= currentMouseX - 200;
+                    codeBlock.style.top = codeBlock.top + "px";
+                    codeBlock.style.left =  codeBlock.left + "px";
+                }
+
 
                 return codeBlock;
             },
@@ -773,6 +834,14 @@ window.onload = function()
                     obj.lastColisioned = false;
                 }
 
+                 if(colision.detectColisionBackpack(obj, "codeBlock") == true) {
+                        if(document.body.contains(obj)) {
+                        clearInterval(obj.interval);
+                        document.body.removeChild(obj);
+                        alert("+1 in backpack");
+                    }
+                } 
+
                 if(obj && obj.top >= windowHeight) {
                     if(document.body.contains(obj)) {
                         clearInterval(obj.interval);
@@ -854,8 +923,8 @@ window.onload = function()
             document.getElementById("sprite").style.top = spritePositionTop + "px";
             document.getElementById("sprite").style.left = spritePositionLeft + "px";
             
-            console.log(spritePositionTop + " , ");
-            console.log(spritePositionLeft);
+            // console.log(spritePositionTop + " , ");
+            // console.log(spritePositionLeft);
 
             var generateObstacle = Math.floor(Math.random()*OBSTACLE_INVERSE_FREQUENCY);
             if (generateObstacle == 2) {

@@ -7,28 +7,6 @@ body {
     background-size: cover;
     overflow: hidden;
 }
-/*
-#sprite {
-	position: absolute;
-	height: 100px;
-	width: 100px;
-}*/
-
-/*
-#sprite img {
-	width: 100px;
-}*/
-/*
-.codeBlock {
-	position: absolute;
-	animation: falling 10s linear;
-	top: -200px;
-}*/
-
-
-.obstacle img {
-	width: 100px;
-}
 
 .codeBlock img {
 	width: 300px;
@@ -43,31 +21,3 @@ body {
 	text-align: center;
 } 
 
-
-/*TODO: delete*/
-#obstacle1 {
-	top: 20px;
-	left: 20px;
-}
-
-#obstacle2 {
-	top: 420px;
-	left: 120px;
-}
-
-#obstacle3 {
-	top: 320px;
-	left: 720px;
-}
-
-#obstacle4 {
-	top: 320px;
-	left: 620px;
-}
-
-#obstacle5 {
-	top: 420px;
-	left: 820px;
-}
-
-/*Delete until here*/
