@@ -14,16 +14,16 @@ var OBSTACLE_HEIGHT;
 var OBSTACLE_WIDTH;
 var CODE_BLOCK_HEIGHT;
 var CODE_BLOCK_WIDTH;
-var WINDOW_WIDTH;
-var WINDOW_HEIGHT;
+var windowWidth;
+var windowHeight;
 var OBSTACLE_INVERSE_FREQUENCY;
 var CODE_BLOCK_INVERSE_FREQUENCY;
 var OBSTACLE_SPEED_INTERVAL;
 var CODE_BLOCK_SPEED_INTERVAL;
 // settings parameters
 var FUNCTION;
-var LANGUAGES;
-var WIN_MESSAGE;
+var languages;
+var winMessage;
 
 
 var obstacles = [];
@@ -46,25 +46,12 @@ function initValues() {
     spritePositionLeft = 0;
     codeBlocksTop = [];
     codeBlocksLeft = [];
-
-    SPRITE_HEIGHT = 200;
-    SPRITE_WIDTH = 100;
-    BACKPACK_HEIGHT = 150;
-    BACKPACK_WIDTH = 150;
-    OBSTACLE_HEIGHT = 70;
-    OBSTACLE_WIDTH = 100;
-    CODE_BLOCK_HEIGHT = 150;
-    CODE_BLOCK_WIDTH = 300;
-    WINDOW_WIDTH = 0;
-    WINDOW_HEIGHT = 0;
-    OBSTACLE_INVERSE_FREQUENCY= 220;
-    CODE_BLOCK_INVERSE_FREQUENCY= 300;
-    OBSTACLE_SPEED_INTERVAL =100;
-    CODE_BLOCK_SPEED_INTERVAL =100;
-    // settings parameters
+    windowWidth = 0;
+    windowHeight = 0;
+     // settings parameters
     FUNCTION = "";
-    LANGUAGES = [];
-    WIN_MESSAGE = "Congratulations! You won!";
+    languages = [];
+    winMessage = "Congratulations! You won!";
 
     obstacles = [];
     codeBlocks = [];
@@ -79,6 +66,24 @@ function initValues() {
     spriteName = "Player1";
     nrOfLivesTotal = 3;
     nrOfLivesCurrent = 3;
+
+
+    // get constants
+    constants = new Const();
+    SPRITE_HEIGHT = constants.getSpriteHeight();
+    SPRITE_WIDTH = constants.getSpriteWidth();
+    BACKPACK_HEIGHT = constants.getBackpackHeight();
+    BACKPACK_WIDTH = constants.getBackpackWidth();
+    OBSTACLE_HEIGHT = constants.getObstacleHeight();
+    OBSTACLE_WIDTH = constants.getObstacleWidth();
+    CODE_BLOCK_HEIGHT = constants.getCodeBlockHeight();
+    CODE_BLOCK_WIDTH = constants.getCodeBlockWidth();
+    
+    OBSTACLE_INVERSE_FREQUENCY= constants.getObstacleInverseFrequency();
+    CODE_BLOCK_INVERSE_FREQUENCY= constants.getCodeBlockInverseFrequency();
+    OBSTACLE_SPEED_INTERVAL = constants.getObstacleSpeedInterval();
+    CODE_BLOCK_SPEED_INTERVAL = constants.getCodeBlockSpeedInterval();
+   
 }
 
 
@@ -297,7 +302,7 @@ window.onload = function()
 
                 winMessageTextArea = document.createElement("textarea");
                 winMessageTextArea.id = "winMessageTextArea"; 
-                winMessageTextArea.innerHTML = WIN_MESSAGE; 
+                winMessageTextArea.innerHTML = winMessage; 
 
 
                 startGameButton = document.createElement("button");
@@ -440,7 +445,7 @@ window.onload = function()
                         WIN_MESSAGE_New = winMessageTextArea.value;
                     } else {
                         validateData = false;
-                        alert(WIN_MESSAGE);
+                        alert(winMessage);
 
                     }
                     // alert(speedRange.value);
@@ -454,15 +459,15 @@ window.onload = function()
                     }
 
                     // Reset languages
-                    LANGUAGES = [];
+                    languages = [];
                     var languageMultipleOptions = languageMultipleSelect.children;
                     for(var i=0; i<languageMultipleOptions.length; i++) {
                         if(languageMultipleOptions[i].selected) {
-                            LANGUAGES.push(languageMultipleOptions[i].value);
+                            languages.push(languageMultipleOptions[i].value);
                         }
                     }
 
-                    if(LANGUAGES.length == 0) {
+                    if(languages.length == 0) {
                         validateData = false;
                         // alert("languages");
 
@@ -473,7 +478,7 @@ window.onload = function()
                         spriteName = spriteNameNew;
                         nrOfLivesTotal = nrOfLivesTotalNew;
                         nrOfLivesCurrent = nrOfLivesCurrentNew;
-                        WIN_MESSAGE = WIN_MESSAGE_New;
+                        winMessage = WIN_MESSAGE_New;
                         STEP = STEP_New;
                         FUNCTION = FUNCTION_New;
 
@@ -497,16 +502,16 @@ window.onload = function()
 
     function playGame() {
         function init() {
-            WINDOW_WIDTH = window.innerWidth
+            windowWidth = window.innerWidth
             || document.documentElement.clientWidth
             || document.body.clientWidth;
 
-             WINDOW_HEIGHT = window.innerHeight
+             windowHeight = window.innerHeight
             || document.documentElement.clientHeight
             || document.body.clientHeight;
             
-            spritePositionLeft = Math.floor(WINDOW_WIDTH/2 - SPRITE_WIDTH/2);   
-            spritePositionTop = Math.floor(WINDOW_HEIGHT/2);   
+            spritePositionLeft = Math.floor(windowWidth/2 - SPRITE_WIDTH/2);   
+            spritePositionTop = Math.floor(windowHeight/2);   
         }
         
         init();
@@ -540,7 +545,7 @@ window.onload = function()
                 obstacle.style.position = "absolute";
                 obstacle.style.zIndex = "4";
                 var obstacleTop = -200;
-                var obstacleLeft = Math.floor(Math.random() * WINDOW_WIDTH);
+                var obstacleLeft = Math.floor(Math.random() * windowWidth);
                 obstacle.style.top = obstacleTop + "px";
                 obstacle.style.left =  obstacleLeft + "px";
                 obstacle.top = obstacleTop;
@@ -580,7 +585,7 @@ window.onload = function()
                 codeBlock.style.position = "absolute";
 
                 var codeBlockTopValue = -100;
-                var codeBlockLeftValue = Math.floor(Math.random() * WINDOW_WIDTH)
+                var codeBlockLeftValue = Math.floor(Math.random() * windowWidth)
 
                 codeBlock.style.top = codeBlockTopValue + "px";
                 codeBlock.style.left = codeBlockLeftValue + "px";
@@ -656,7 +661,7 @@ window.onload = function()
                 var startAgainBtn = document.createElement("button");
                 startAgainBtn.innerHTML = "Start again";
                 startAgainBtn.style.position = "absolute";
-                startAgainBtn.style.left = Math.floor(0.5 * WINDOW_WIDTH - 30) + "px";
+                startAgainBtn.style.left = Math.floor(0.5 * windowWidth - 30) + "px";
                 // startAgainBtn.style.left = "50%";
 
                 startAgainBtn.addEventListener("click", function(event){
@@ -699,7 +704,7 @@ window.onload = function()
                     obj.lastColisioned = false;
                 }
 
-                if(obj.top == WINDOW_HEIGHT) {
+                if(obj.top == windowHeight) {
                     if(document.body.contains(obj)) {
                         clearInterval(obj.interval);
                         document.body.removeChild(obj);
@@ -725,7 +730,7 @@ window.onload = function()
                     obj.lastColisioned = false;
                 }
 
-                if(obj && obj.top >= WINDOW_HEIGHT) {
+                if(obj && obj.top >= windowHeight) {
                     if(document.body.contains(obj)) {
                         clearInterval(obj.interval);
                         document.body.removeChild(obj);
@@ -771,8 +776,8 @@ window.onload = function()
                 // up arrow
                 spritePositionTop -= STEP;
             }
-            // else if (e.keyCode == '40'  && spritePositionTop < WINDOW_HEIGHT) {
-            else if (e.keyCode == '115'  && spritePositionTop+SPRITE_HEIGHT < WINDOW_HEIGHT) {
+            // else if (e.keyCode == '40'  && spritePositionTop < windowHeight) {
+            else if (e.keyCode == '115'  && spritePositionTop+SPRITE_HEIGHT < windowHeight) {
                 // down arrow
                 spritePositionTop += STEP;
             }
@@ -781,8 +786,8 @@ window.onload = function()
                // left arrow
                spritePositionLeft -= STEP;
             }
-            // else if (e.keyCode == '39' && spritePositionLeft < WINDOW_WIDTH) {
-            else if (e.keyCode == '100' && spritePositionLeft+SPRITE_WIDTH < WINDOW_WIDTH) {
+            // else if (e.keyCode == '39' && spritePositionLeft < windowWidth) {
+            else if (e.keyCode == '100' && spritePositionLeft+SPRITE_WIDTH < windowWidth) {
                // right arrow
                spritePositionLeft += STEP;
             }
