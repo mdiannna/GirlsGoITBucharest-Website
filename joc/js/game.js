@@ -410,77 +410,110 @@ window.onload = function()
 
                     var spriteNameNew;
                     var nrOfLivesTotalNew;
-                    var nrOfLivesCurrentNew;
                     var WIN_MESSAGE_New;
                     var STEP_New;
                     var FUNCTION_New;
 
-                    // TODO: RegExp numai caractere, minim 3, validare
-                    if(nameText.value && nameText.value!= undefined && nameText.value != "") {
-                        spriteNameNew = nameText.value;
-                        var re = new RegExp('^[a-zA-Z]{3,}$');
-                        // var re = new RegExp('^[a-zA-Z]+$');
-                        if(re.test(spriteNameNew)== false) {
+                            
+                    if(loadSettingsCheckbox.checked) {
+                        if(parseInt(localStorage.getItem("hasData")) == 1) {
+                            spriteName = localStorage.getItem("spriteName");
+                            nrOfLivesTotal = localStorage.getItem("nrOfLivesTotal");
+                            nrOfLivesCurrent = nrOfLivesTotal;
+                            winMessage = localStorage.getItem("winMessage");
+                            STEP = localStorage.getItem("spriteStep");
+                            FUNCTION = localStorage.getItem("function");
+
+                            var nrLanguages = localStorage.getItem("nrLanguages");
+                            
+                            for(var i=1; i<=nrLanguages; i++) {
+                                languages.push(localStorage.getItem("language" + i));
+                            }
+                           
+
+                        } else {
+                            alert("Can't load previous data");
                             validateData = false;
+                        }    
+                    } else {    
+                        // TODO: RegExp numai caractere, minim 3, validare
+                        if(nameText.value && nameText.value!= undefined && nameText.value != "") {
+                            spriteNameNew = nameText.value;
+                            var re = new RegExp('^[a-zA-Z]{3,}$');
+                            // var re = new RegExp('^[a-zA-Z]+$');
+                            if(re.test(spriteNameNew)== false) {
+                                validateData = false;
+                            }
+
+                        } else {
+                            validateData = false;
+                            // alert("name");
                         }
 
-                    } else {
-                        validateData = false;
-                        // alert("name");
-                    }
+                        if(nrOfLivesRadio1.checked) {
+                            nrOfLivesTotalNew = 1;
+                        } else if(nrOfLivesRadio2.checked && nrOfLivesNumber.value != undefined) {
+                            nrOfLivesTotalNew = nrOfLivesNumber.value;
+                        }else {
+                            validateData = false;
+                            // alert("nr of lives");
 
-                    if(nrOfLivesRadio1.checked) {
-                        nrOfLivesTotalNew = 1;
-                        nrOfLivesCurrentNew = 1;
-                    } else if(nrOfLivesRadio2.checked && nrOfLivesNumber.value != undefined) {
-                        nrOfLivesTotalNew = nrOfLivesNumber.value;
-                        nrOfLivesCurrentNew = nrOfLivesNumber.value;
-                    }else {
-                        validateData = false;
-                        // alert("nr of lives");
-
-                    }
-
-                    if(winMessageTextArea.value != "" && winMessageTextArea.value != undefined) {
-                        WIN_MESSAGE_New = winMessageTextArea.value;
-                    } else {
-                        validateData = false;
-                        alert(winMessage);
-
-                    }
-                    // alert(speedRange.value);
-                    STEP_New = STEP * speedRange.value;
-
-                    var functionSelectOptions = functionSelect.children;
-                    for(var i=0; i<functionSelectOptions.length; i++) {
-                        if(functionSelectOptions[i].selected) {
-                            FUNCTION_New = functionSelectOptions[i];
                         }
-                    }
 
-                    // Reset languages
-                    languages = [];
-                    var languageMultipleOptions = languageMultipleSelect.children;
-                    for(var i=0; i<languageMultipleOptions.length; i++) {
-                        if(languageMultipleOptions[i].selected) {
-                            languages.push(languageMultipleOptions[i].value);
+                        if(winMessageTextArea.value != "" && winMessageTextArea.value != undefined) {
+                            WIN_MESSAGE_New = winMessageTextArea.value;
+                        } else {
+                            validateData = false;
+                            alert(winMessage);
+
                         }
-                    }
+                        // alert(speedRange.value);
+                        STEP_New = STEP * speedRange.value;
 
-                    if(languages.length == 0) {
-                        validateData = false;
-                        // alert("languages");
+                        var functionSelectOptions = functionSelect.children;
+                        for(var i=0; i<functionSelectOptions.length; i++) {
+                            if(functionSelectOptions[i].selected) {
+                                FUNCTION_New = functionSelectOptions[i];
+                            }
+                        }
 
+                        // Reset languages
+                        languages = [];
+                        var languageMultipleOptions = languageMultipleSelect.children;
+                        for(var i=0; i<languageMultipleOptions.length; i++) {
+                            if(languageMultipleOptions[i].selected) {
+                                languages.push(languageMultipleOptions[i].value);
+                            }
+                        }
+
+                        if(languages.length == 0) {
+                            validateData = false;
+                            // alert("languages");
+
+                        }
                     }
 
 
                     if(validateData == true) {
                         spriteName = spriteNameNew;
                         nrOfLivesTotal = nrOfLivesTotalNew;
-                        nrOfLivesCurrent = nrOfLivesCurrentNew;
+                        nrOfLivesCurrent = nrOfLivesTotalNew;
                         winMessage = WIN_MESSAGE_New;
                         STEP = STEP_New;
                         FUNCTION = FUNCTION_New;
+
+                        localStorage.setItem("hasData","1");
+                        localStorage.setItem("spriteName", spriteNameNew);
+                        localStorage.setItem("nrOfLivesTotal", nrOfLivesTotal);
+                        localStorage.setItem("winMessage", winMessage);
+                        localStorage.setItem("spriteStep", spriteStep);
+                        localStorage.setItem("function", FUNCTION);
+                        localStorage.setItem("nrLanguages", languages.length);
+                        
+                        for(var i=1; i<=languages.length; i++) {
+                            localStorage.setItem("language" + i, languages[i]);
+                        }
+                        
 
                         clearScreen();
                         playGame();                        
