@@ -4,6 +4,8 @@ var spritePositionTop;
 var spritePositionLeft;
 var codeBlocksTop = [];
 var codeBlocksLeft = [];
+var updateInterval;
+var music = true;
 
     
 var SPRITE_HEIGHT;
@@ -48,7 +50,7 @@ var nrOfLivesCurrent;
 var currentMouseX;
 var currentMouseY;
 
-
+var lifeCheatCode;
 
 
 
@@ -63,6 +65,7 @@ var codeBlocksData = ["function sum(){", "}", 'alert("something")',
 
 
 function initValues() {
+    lifeCheatCode = [];
     playerScore = 0;
     spritePositionTop = 0;
     spritePositionLeft = 0;
@@ -70,6 +73,7 @@ function initValues() {
     codeBlocksLeft = [];
     windowWidth = 0;
     windowHeight = 0;
+    clearInterval(updateInterval);
      // settings parameters
     FUNCTION = "";
     languages = [];
@@ -110,7 +114,11 @@ function initValues() {
     STEP_CONSTANT = constants.getStepConstant();
     GAME_DURATION = constants.getGameDuration();
     SCORE_ADD = constants.getScoreAdd();
-   
+    
+    game_audio=document.createElement("audio");
+    game_audio.classList.add("audio");
+    game_audio.setAttribute("src","media/game_music.mp3");
+    music = true;
 }
 
 
@@ -183,8 +191,8 @@ window.onload = function()
     document.onmousemove = function(event) {
     currentMouseX = event.pageX;
     currentMouseY = event.pageY;
-    console.log(currentMouseX);
-    console.log(currentMouseY);
+    // console.log(currentMouseX);
+    // console.log(currentMouseY);
     // alert(currentMouseX);
     // alert(currentMouseY);
 }
@@ -283,13 +291,16 @@ window.onload = function()
                 messageDiv.style.color = "magenta";
                 messageDiv.style.opacity = "0.9";
                 messageDiv.style.top = "100px";
+                messageDiv.style.paddingTop = "100px";
+                messageDiv.style.fontSize = "100px";
+                messageDiv.style.textAlign = "center";
                 messageDiv.style.left = 0;
-                messageDiv.style.width = Math.floor(windowWidth * 0.8);
-                messageDiv.style.height = Math.floor(windowHeight * 0.8);
+                messageDiv.style.width = Math.floor(windowWidth) + "px";
+                messageDiv.style.height = Math.floor(windowHeight * 0.8) + "px";
                 // messageDiv.style.height = "50px";
                 messageDiv.style.zIndex = "120";
                 messageDiv.style.border = "1px solid #ff0000";
-                messageDiv.innerHTML = mymessage;
+                messageDiv.innerHTML = mymessage+ "<br>Your score is: " +playerScore;
                 document.body.appendChild(messageDiv);
             }
 
@@ -370,7 +381,7 @@ window.onload = function()
                 // nrOfLivesRadio1.id = "nrOfLivesRadio1"; 
 
                 nrOfLivesRadioLabel2 = document.createElement("label");
-                nrOfLivesRadioLabel2.innerHTML = "multiple lifes";
+                nrOfLivesRadioLabel2.innerHTML = "multiple lives";
                 nrOfLivesRadioLabel2.style.color = "black";
                 nrOfLivesRadio2 = document.createElement("input");
                 nrOfLivesRadio2.name = "nrOfLivesRadio";
@@ -477,6 +488,8 @@ window.onload = function()
                         settingsContainer.removeChild(languageMultipleSelect);
                         settingsContainer.removeChild(winMessageTextAreaLabel);
                         settingsContainer.removeChild(winMessageTextArea);                        
+                        settingsContainer.removeChild(nrOfLivesNumberLabel);                        
+                        settingsContainer.removeChild(nrOfLivesNumber);                        
 
                     } else {
                         settingsContainer.insertBefore(nameTextLabel, startGameButton);
@@ -493,16 +506,15 @@ window.onload = function()
                         settingsContainer.insertBefore(languageMultipleSelect, startGameButton);
                         settingsContainer.insertBefore(winMessageTextAreaLabel, startGameButton);
                         settingsContainer.insertBefore(winMessageTextArea, startGameButton);
+                        settingsContainer.insertBefore(nrOfLivesNumberLabel, speedRangeLabel);
+                        settingsContainer.insertBefore(nrOfLivesNumber, speedRangeLabel);
 
 
         
                     }
                 }
-
-                
-
-
             },
+
 
             showSettingsPage:function() {
                 clearScreen();
@@ -528,21 +540,28 @@ window.onload = function()
                 settingsContainer.appendChild(winMessageTextArea);
 
                 settingsContainer.appendChild(startGameButton);
+                settingsContainer.insertBefore(nrOfLivesNumberLabel, speedRangeLabel);
+                settingsContainer.insertBefore(nrOfLivesNumber, speedRangeLabel);
+                nrOfLivesNumber.disabled = true;
+
 
                 nrOfLivesRadio2.onchange = function() {
                     if(this.checked) {
-                        settingsContainer.insertBefore(nrOfLivesNumberLabel, speedRangeLabel);
-                        settingsContainer.insertBefore(nrOfLivesNumber, speedRangeLabel);
+                        nrOfLivesNumber.disabled = false;
+                        // settingsContainer.insertBefore(nrOfLivesNumberLabel, speedRangeLabel);
+                        // settingsContainer.insertBefore(nrOfLivesNumber, speedRangeLabel);
                     } 
                 }
 
                 nrOfLivesRadio1.onchange = function() {
                     if(this.checked) {
                         if(settingsContainer.contains(nrOfLivesNumberLabel)) {
-                            settingsContainer.removeChild(nrOfLivesNumberLabel);
+                            // nrOfLivesNumber.disabled = "disabled";
+                            // settingsContainer.removeChild(nrOfLivesNumberLabel);
                         }
                         if(settingsContainer.contains(nrOfLivesNumber)) {
-                            settingsContainer.removeChild(nrOfLivesNumber);
+                            nrOfLivesNumber.disabled = true;
+                            // settingsContainer.removeChild(nrOfLivesNumber);
                         }
                     }
                 }
@@ -677,6 +696,7 @@ window.onload = function()
                         // alert("sprite step:" + spriteStep);                  
                         playGame();      
 
+
                     } else {
                         alert("Input data incorrect or missing! Please check and try again!");
                     }
@@ -692,9 +712,17 @@ window.onload = function()
 
     }
 
+    // function startTimer() {
+    //     setInterval(function() {
+    //         timers = document.getElementsByClassName("timer");
+    //         // timers[
+    //     }, 1000);
+    // }
 
     function playGame() {
         function init() {
+            game_audio.play();
+
             windowWidth = window.innerWidth;
 
              windowHeight = window.innerHeight;
@@ -704,6 +732,7 @@ window.onload = function()
         }
         
         init();
+        // startTimer();
 
 
         var game = {
@@ -828,6 +857,43 @@ window.onload = function()
                 gameStatus.style.zIndex = "1000";
                 // gameStatus.style.color = "red";
 
+
+                // var timer = document.createElement("span");
+                // timer.id = "timer";
+                // timer.style.float = "left";
+                // timer.classList.add("timer");
+                // 
+
+                var stopBtn = document.createElement("button");
+                stopBtn.innerHTML = "stop music";
+                stopBtn.style.bottom = "50px";
+                stopBtn.style.right = "20px";
+                stopBtn.style.position = "absolute";
+
+                var musicIcon = document.createElement("i");
+                musicIcon.classList.add("fa");
+                musicIcon.classList.add("fa-pause");
+                musicIcon.setAttribute("aria-hidden", true);
+                // musicIcon.style.marginTop = "5px";
+                // musicIcon.style.color = "red";
+                // musicIcon.style.marginRight = "5px";
+                stopBtn.appendChild(musicIcon);
+
+                stopBtn.addEventListener("click", function(event) {
+                    // game_audio 
+                    this.style.visibility = "hidden";
+                    // if(music == true) {
+                        game_audio.pause();
+                        game_audio.currentTime = 0;
+                        // music == false;
+                    // } else {
+                    //     music = true;
+                    //     game_audio.play();
+                    // }
+                    
+                    // game_audio.src="";
+                });
+
                 var lives = document.createElement("span");
                 lives.id = "lives";
                 lives.style.float = "left";
@@ -857,6 +923,7 @@ window.onload = function()
                 + "  &nbsp; | &nbsp;Player: " + spriteName + "</span>";
 
 
+                document.body.appendChild(stopBtn);
                 gameStatus.appendChild(lives);
                 gameStatus.appendChild(playerInfo);
 
@@ -867,6 +934,7 @@ window.onload = function()
             },
             gameOver:function() {
                 gameStatus = "lost";
+                clearInterval(updateInterval);
                 clearTimeout(winGameFunction);
                 clearScreen();
                 var gameOverP = document.createElement("p");
@@ -943,6 +1011,7 @@ window.onload = function()
                         // alert("Colision winth obstacle detected! -1 life");
                         message.showError("Colision winth obstacle detected! -1 life");
                         obj.lastColisioned = true;
+                        obj.firstChild.setAttribute("src", "img/obstacles/obstacle1_broken.png");
                         game.decreaseLives();    
                     }
                 } else {
@@ -965,7 +1034,7 @@ window.onload = function()
                 if(colision.detectColision(obj, sprite, "codeBlock") == true) {
                     if(obj.lastColisioned==false) {
                         // alert("Colisionwith code block detected!");    
-                        message.showInfo("+1 code block");
+                        message.showInfo("+1 code block +10 points");
                         playerScore += SCORE_ADD;
                         obj.lastColisioned = true;
                         if(document.body.contains(obj)) {
@@ -982,7 +1051,8 @@ window.onload = function()
                         clearInterval(obj.interval);
                         document.body.removeChild(obj);
                         // alert("+1 in backpack");
-                        message.showInfo("+1 in backpack");
+                        playerScore += SCORE_ADD*3;
+                        message.showInfo("+1 in backpack +30points");
                     }
                 } 
 
@@ -1029,6 +1099,7 @@ window.onload = function()
 
        
         document.onkeypress=function(e){
+            // alert(e.keyCode);
             
             if (e.keyCode == '119' && spritePositionTop-spriteStep >0) {
                 // up arrow
@@ -1049,6 +1120,42 @@ window.onload = function()
                // right arrow
                spritePositionLeft += spriteStep;
             }
+
+            // l
+            if(e.keyCode == '108') {
+                lifeCheatCode = [];
+                lifeCheatCode.push(1);
+            }
+            // i
+            if(e.keyCode == '105' && lifeCheatCode[0] == 1) {
+                lifeCheatCode.push(1);
+            }
+            // f
+            if(e.keyCode == '102' && lifeCheatCode[0] == 1 && lifeCheatCode[1] == 1) {
+                lifeCheatCode.push(1);
+                // console.log(lifeCheatCode);
+
+
+            }
+            // e
+            if(e.keyCode == '101' && lifeCheatCode[0] == 1 && lifeCheatCode[1] == 1&& lifeCheatCode[2] == 1) {
+                lifeCheatCode = [];
+
+                // lifeCheatCode = [0,0,0,0];
+                // code accepted
+                // alert('+1 life!');
+                nrOfLivesTotal++;
+                nrOfLivesCurrent++;
+                var heart = document.createElement("i");
+                heart.classList.add("fa");
+                heart.classList.add("fa-heart");
+                heart.setAttribute("aria-hidden", true);
+                heart.style.marginTop = "5px";
+                heart.style.color = "red";
+                heart.style.marginRight = "5px";
+                document.getElementById('lives').appendChild(heart);
+            }
+            // console.log(lifeCheatCode);
         }
 
 
@@ -1094,7 +1201,7 @@ window.onload = function()
         }               
 
 
-        setInterval(update, 10);
+        updateInterval = setInterval(update, 10);
     }
 
 
