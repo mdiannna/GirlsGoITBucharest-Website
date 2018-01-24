@@ -345,7 +345,9 @@ window.onload = function()
                 pageTitle = document.createElement("p");
                 pageTitle.style.fontSize = "2.3em";
                 pageTitle.style.textAlign = "center";
-                pageTitle.innerHTML = "Settings";
+                // pageTitle.innerHTML = "Settings";
+                pageTitleText = document.createTextNode("Settings");
+                pageTitle.appendChild(pageTitleText);
 
 
                 loadSettingsCheckboxLabel = document.createElement("label");
@@ -719,6 +721,11 @@ window.onload = function()
     //     }, 1000);
     // }
 
+    window.onresize = function() {
+        windowWidth = window.innerWidth;
+        windowHeight = window.innerHeight;
+    }
+    
     function playGame() {
         function init() {
             game_audio.play();
@@ -909,6 +916,7 @@ window.onload = function()
                     heart.style.marginRight = "5px";
                     lives.appendChild(heart);
                 }
+                lives.firstChild.style.fontSize = "1.2em";
 
                 var playerInfo = document.createElement("playerInfo");
                 playerInfo.id = "playerInfo";
@@ -929,10 +937,9 @@ window.onload = function()
 
                 document.body.appendChild(gameStatus);
 
-
-
             },
             gameOver:function() {
+                game_audio.pause();
                 gameStatus = "lost";
                 clearInterval(updateInterval);
                 clearTimeout(winGameFunction);
@@ -1155,6 +1162,8 @@ window.onload = function()
                 heart.style.marginRight = "5px";
                 document.getElementById('lives').appendChild(heart);
             }
+             document.getElementById('lives').firstChild.style.fontSize = "1.2em";
+
             // console.log(lifeCheatCode);
         }
 
